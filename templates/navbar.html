@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Facility</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Additional custom styles can be added here */
+    </style>
+</head>
+
+<body id="main-container" class="bg-gray-100">
+    <!-- START: Pre Loader -->
+    <div class="se-pre-con">
+        <div class="loader"></div>
+    </div>
+    <!-- END: Pre Loader -->
+
+    <!-- START: Header -->
+    <div id="header-fix" class="header fixed-top bg-white shadow">
+        <div class="site-width">
+            <nav class="navbar navbar-expand-lg p-0">
+                <div class="navbar-header h-100 h4 mb-0 align-self-center logo-bar text-left">
+                    <a href="#" class="horizontal-logo text-left flex items-center">
+                        <i class="fas fa-hospital text-2xl"></i>
+                        <span class="h4 font-semibold align-self-center mb-0 ml-2">MediCare</span>
+                    </a>
+                </div>
+                <div class="navbar-header h4 mb-0 text-center h-100 collapse-menu-bar">
+                    <a href="#" class="sidebarCollapse" id="collapse">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </a>
+                </div>
+
+                <form class="float-left d-none d-lg-block search-form">
+                    <div class="form-group mb-0 position-relative">
+                        <a href="#" class="position-absolute close-button mobilesearch d-lg-none"
+                            data-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-times text-xl"></i>
+                        </a>
+                    </div>
+                </form>
+                <div class="navbar-right ml-auto h-100">
+                    <ul class="ml-auto p-0 m-0 list-unstyled d-flex top-icon h-100">
+                        <li class="d-inline-block align-self-center d-block d-lg-none">
+                            <a href="#" class="nav-link mobilesearch" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-search text-2xl"></i>
+                            </a>
+                        </li>
+
+                        <li class="dropdown align-self-center d-inline-block">
+                            <ul class="dropdown-menu dropdown-menu-right border py-0">
+                                <li><a class="dropdown-item text-center py-2" href="#">Read All Messages <i
+                                            class="fas fa-arrow-right pl-2"></i></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown user-profile align-self-center d-inline-block">
+                            <a href="#" class="nav-link py-0" data-toggle="dropdown" aria-expanded="false">
+                                <div class="media">
+                                    <img src="/media/media/profile_pics/Screenshot_from_2023-09-28_15-22-53.png" alt=""
+                                        class="d-flex img-fluid rounded-circle" width="29">
+                                </div>
+                            </a>
+
+                            <div class="dropdown-menu border dropdown-menu-right p-0">
+                                <a href="#" class="dropdown-item px-2 align-self-center d-flex">
+                                    <i class="fas fa-user mr-2 text-xl"></i> Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item px-2 text-danger align-self-center d-flex">
+                                    <i class="fas fa-sign-out-alt mr-2 text-xl"></i> Sign Out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- END: Header -->
+
+    <!-- START: Main Menu -->
+    <!-- Customize your main menu here for medical facility -->
+    <!-- You can change the menu items and links as needed -->
+    <div class="sidebar">
+        <div class="site-width">
+            <ul id="side-menu" class="sidebar-menu">
+                <li class="dropdown"><a href="#"><i class="fas fa-home mr-1 text-xl"></i>
+                        Dashboard</a>
+                    <ul>
+                        <li><a href="{% url 'doctor_dashboard' %}"><i class="fas fa-th text-xl"></i> Dashboard</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><i class="fas fa-user-md mr-1 text-xl"></i> Doctors</a>
+                    <ul>
+                        <li><a href=""><i class="fas fa-user text-xl"></i> All Doctors</a></li>
+                        <li><a href="{% url 'add_doctor' %}"><i class="fas fa-plus text-xl"></i> Add Doctor</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><i class="fas fa-user-nurse mr-1 text-xl"></i> Nurses</a>
+                    <ul>
+                        <li><a href=""><i class="fas fa-user text-xl"></i> All Nurses</a></li>
+                        <li><a href="{% url 'add_nurse' %}"><i class="fas fa-plus text-xl"></i> Add Nurse</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><i class="fas fa-hospital-user mr-1 text-xl"></i> Patients</a>
+                    <ul>
+                        <li><a href=""><i class="fas fa-users text-xl"></i> All Patients</a></li>
+                        <li><a href="{% url 'add_patient' %}"><i class="fas fa-user-plus text-xl"></i> Add Patient</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><i class="fas fa-calendar-check mr-1 text-xl"></i> Appointments</a>
+                    <ul>
+                        <li><a href="{% url 'appointments' %}"><i class="fas fa-calendar text-xl"></i> All Appointments</a></li>
+                        <li><a href="{% url 'add_appointment' %}"><i class="fas fa-calendar-plus text-xl"></i> Add Appointment</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><i class="fas fa-notes-medical mr-1 text-xl"></i> Medical Records</a>
+                    <ul>
+                        <li><a href="{% url 'records' %}"><i class="fas fa-file-alt text-xl"></i> All Records</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- END: Main Menu -->
+</body>
+</html>

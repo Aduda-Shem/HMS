@@ -1,0 +1,85 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
+
+<main>
+    <div class="container-fluid site-width">
+        <!-- START: Breadcrumbs -->
+        <div class="row">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Add Nurse</h4></div>
+
+                    <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
+                        <li class="breadcrumb-item">Home</li>
+                        <li class="breadcrumb-item">Add Staff</li>
+                        <li class="breadcrumb-item active"><a href="#">Nurse</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- END: Breadcrumbs -->
+
+        <!-- START: Card Data -->
+        <div class="row">
+            <div class="col-12 mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title">Staff Information</h6>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <form>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputFirstName">First Name</label>
+                                                <input type="text" class="form-control rounded" id="inputFirstName" placeholder="First Name">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputLastName">Last Name</label>
+                                                <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputEmail">Email</label>
+                                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputSpecialty">Specialty</label>
+                                            <input type="text" class="form-control" id="inputSpecialty" placeholder="Specialty">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputLicenseNumber">License Number</label>
+                                            <input type="text" class="form-control" id="inputLicenseNumber" placeholder="License Number">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputDateOfBirth">Date of Birth</label>
+                                                <input type="text" class="form-control datepicker" id="inputDateOfBirth">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputGender">Gender</label>
+                                                <select id="inputGender" class="form-control">
+                                                    <option selected>Choose...</option>
+                                                    <option>Male</option>
+                                                    <option>Female</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Add Staff</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Card DATA -->
+    </div>
+</main>
+<!-- END: Content -->
+{% endblock %}

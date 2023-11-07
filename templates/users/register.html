@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Health Management System - Registration</title>
+    <link rel="shortcut icon" href="{% static 'dist/images/favicon.ico' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'fonts/material-design-iconic-font/css/material-design-iconic-font.css' %}">
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .messages {
+            text-align: center;
+        }
+        .alert {
+            padding: 10px;
+            margin: 10px auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 70%;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .register-link {
+            color: #1da1f2;
+            text-decoration: none;
+            transition: text-decoration 0.2s;
+        }
+        .register-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-r from-blue-400 via-grey-500 to-white-500">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
+            <div class="text-center mb-8">
+                <img class="h-18 mx-auto" src="{% static '/images/ecom.jpg' %}" alt="Logo">
+                <h1 class="text-2xl font-bold text-gray-800">Register an Account</h1>
+                <p class="text-gray-600">Create your account to get started</p>
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <form action="{% url 'register' %}" method="post" class="space-y-6">
+                {% csrf_token %}
+                <div>
+                    <label for="{{ form.email.id_for_label }}" class="block mb-2 font-medium text-gray-800">Email:</label>
+                    {{ form.email }}
+                    {% for error in form.email.errors %}
+                    <span class="text-red-600">{{ error }}</span><br>
+                    {% endfor %}
+                </div>
+                <div>
+                    <label for="{{ form.first_name.id_for_label }}" class="block mb-2 font-medium text-gray-800">First Name:</label>
+                    {{ form.first_name }}
+                    {% for error in form.first_name.errors %}
+                    <span class="text-red-600">{{ error }}</span><br>
+                    {% endfor %}
+                </div>
+                <div>
+                    <label for="{{ form.last_name.id_for_label }}" class="block mb-2 font-medium text-gray-800">Last Name:</label>
+                    {{ form.last_name }}
+                    {% for error in form.last_name.errors %}
+                    <span class="text-red-600">{{ error }}</span><br>
+                    {% endfor %}
+                </div>
+                <div>
+                    <label for="{{ form.password1.id_for_label }}" class="block mb-2 font-medium text-gray-800">Password:</label>
+                    {{ form.password1 }}
+                    {% for error in form.password1.errors %}
+                    <span class="text-red-600">{{ error }}</span><br>
+                    {% endfor %}
+                </div>
+                <div>
+                    <label for="{{ form.password2.id_for_label }}" class="block mb-2 font-medium text-gray-800">Confirm Password:</label>
+                    {{ form.password2 }}
+                    {% for error in form.password2.errors %}
+                    <span class="text-red-600">{{ error }}</span><br>
+                    {% endfor %}
+                </div>
+                <div>
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg">
+                        Register
+                    </button>
+                </div>
+            </form>
+            <div class="mt-4 text-center">
+                <a href="{% url 'login' %}" class="register-link">Already have an account? Log in</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

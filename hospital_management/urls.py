@@ -22,7 +22,8 @@ from patients.views import add_patient
 from records.views import records
 
 urlpatterns = [
-    path('accounts/login/', views.login, name='login'),
+    path('register/', views.register, name='register'),
+    path('login/', views.login, name='login'),
     path('admin/', admin.site.urls), 
     path('', views.doctor_dashboard, name='doctor_dashboard'),
 

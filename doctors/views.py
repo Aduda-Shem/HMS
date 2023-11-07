@@ -1,6 +1,40 @@
 from django.shortcuts import render
 
+from doctors.forms import LoginForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, logout as auth_logout, login as auth_login
+from django.contrib import messages
+
+
 # Create your views here.
+
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=email, password=password) 
+            if user and user.is_active:
+                auth_login(request, user)
+                messages.success(request, 'Successfully logged in')
+                return redirect('doctor_dashboard') 
+            else:
+                messages.error(request, 'Incorrect credentials.')
+        else:
+            messages.error(request, 'Invalid form submission.')
+    else:
+        form = LoginForm()
+    
+    return render(request, 'users/user_login.html', {'form': form})
+
+@login_required
+def logout(request):
+    auth_logout(request)
+    messages.success(request, f"Successfully logged out")
+    return redirect('login')
+
 
 
 def doctor_dashboard(request):

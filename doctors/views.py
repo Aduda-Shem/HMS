@@ -1,74 +1,90 @@
-from django.shortcuts import render
-
-from doctors.forms import CustomUserCreationForm, LoginForm
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, logout as auth_logout, login as auth_login
 from django.contrib import messages
+from django.contrib.auth.models import User
+from .models import Doctor, Nurse
+from .forms import AddDoctorForm, AddNurseForm, LoginForm
 
-
-# Create your views here.
 def register(request):
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            # login(request, user)
-            return redirect('login')  
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'users/register.html', {'form': form})
-
+        email = request.POST.get('email')
+        if not User.objects.filter(email=email).exists():
+            password = User.objects.make_random_password()
+            user = User.objects.create_user(email=email, password=password)
+            user.save()
+            auth_login(request, user)
+            messages.success(request, 'Account created successfully')
+            return redirect('doctor_dashboard')
+        else:
+            messages.error(request, 'Email already exists.')
+    return render(request, 'users/register.html')
 
 def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
+            email = form.cleaned_data['email']        
             password = form.cleaned_data['password']
-            user = authenticate(request, username=email, password=password)
-            if user and user.is_active:
+            user = authenticate(request, email=email, password=password)
+            if user is not None and user.is_active:
                 auth_login(request, user)
                 messages.success(request, 'Successfully logged in')
-                return redirect('doctor_dashboard')
+                if user.is_doctor:
+                    return redirect('doctor_dashboard')
+                elif user.is_nurse:
+                    return redirect('nurse_dashboard')
             else:
                 messages.error(request, 'Incorrect credentials.')
         else:
             messages.error(request, 'Invalid form submission.')
     else:
         form = LoginForm()
-
     return render(request, 'users/user_login.html', {'form': form})
 
 @login_required
-def logout(request):
+def user_logout(request):
     auth_logout(request)
-    messages.success(request, f"Successfully logged out")
+    messages.success(request, "Successfully logged out")
     return redirect('login')
 
-
-
+@login_required
 def doctor_dashboard(request):
+    return render(request, 'doctors/doctor_dashboard.html')
 
-    context = {
-    }
+@login_required
+def nurse_dashboard(request):
+    return render(request, 'nurse/nurse_dashboard.html')
 
-    return render(request, 'doctors/doctor_dashboard.html', context)
+def create_user_with_id_password(license_number):
+    password = f'user{license_number}'
+    user = User.objects.create_user(username=f'user{license_number}', password=password)
+    return user
 
-
+@login_required
 def add_doctor(request):
-
-
-    context = {
-    }
-
-    return render(request, 'doctors/add_doctor.html', context)
-
-
+    if request.method == "POST":
+        form = AddDoctorForm(request.POST)
+        print("Doctor: ", form)
+        if form.is_valid():
+            doctor = form.save(commit=False)
+            doctor.save()
+            create_user_with_id_password(doctor.id)
+            messages.success(request, 'Doctor added successfully')
+            return redirect('doctor_dashboard')
+    else:
+        form = AddDoctorForm()
+    return render(request, 'doctors/add_doctor.html', {'form': form})
+@login_required
 def add_nurse(request):
-
-
-    context = {
-    }
-
-    return render(request, 'nurse/add_nurse.html', context)
+    if request.method == "POST":
+        form = AddNurseForm(request.POST)
+        if form.is_valid():
+            nurse = form.save(commit=False)
+            nurse.user = request.user
+            nurse.save()
+            messages.success(request, 'Nurse added successfully')
+            return redirect('nurse_dashboard')
+    else:
+        form = AddNurseForm()
+    return render(request, 'nurse/add_nurse.html', {'form': form})

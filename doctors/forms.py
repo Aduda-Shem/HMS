@@ -1,21 +1,25 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 
-from doctors.admin import User
+from doctors.models import Doctor, Nurse
 
-class CustomUserCreationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email', 'password1', 'password2'] 
-
-    def __init__(self, *args, **kwargs):
-        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
-        self.fields['first_name'].label = 'First Name'
-        self.fields['last_name'].label = 'Last Name'
-        self.fields['email'].label = 'Email'
-        self.fields['password1'].label = 'Password'
-        self.fields['password2'].label = 'Confirm Password'
+class CustomUserCreationForm(forms.Form):
+    email = forms.EmailField(label='Email', max_length=100)
 
 class LoginForm(forms.Form):
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'placeholder': 'Enter your email', 'class': 'custom-email-input form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password', 'class': 'prompt srch_explore form-control'}))
+    password = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password', 'class': 'prompt srch_explore form-control'}))
+
+class AddDoctorForm(forms.ModelForm):
+    class Meta:
+        model = Doctor
+        fields = ['first_name', 'last_name', 'specialization', 'email', 'license_number', 'date_of_birth', 'gender']
+
+class AddNurseForm(forms.ModelForm):
+    class Meta:
+        model = Nurse
+        fields = ['first_name', 'last_name', 'email', 'phone', 'assigned_doctor']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['assigned_doctor'].queryset = Doctor.objects.all() 

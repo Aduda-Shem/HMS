@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from appointments.views import add_appointment, view_appointment
+from patients.views import add_appointment, view_appointment, add_patient
 
 from doctors import views
-from patients.views import add_patient
 from records.views import records
 
 urlpatterns = [
@@ -26,6 +25,10 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('admin/', admin.site.urls), 
     path('', views.doctor_dashboard, name='doctor_dashboard'),
+
+    # Dashboard
+    path('doctor_dashboard', views.doctor_dashboard, name='doctor_dashboard'),
+    path('nurse_dashboard', views.nurse_dashboard, name='nurse_dashboard'),
 
     # adding new users and appointment and schedules
     path('add_doctor', views.add_doctor, name='add_doctor'),

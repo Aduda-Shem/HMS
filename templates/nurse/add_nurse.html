@@ -31,45 +31,41 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <form>
+                                    <form method="post" action="{% url 'add_nurse' %}">
+                                        {% csrf_token %}
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="inputFirstName">First Name</label>
-                                                <input type="text" class="form-control rounded" id="inputFirstName" placeholder="First Name">
+                                                <input type="text" class="form-control rounded" id="inputFirstName" name="first_name" placeholder="First Name">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputLastName">Last Name</label>
-                                                <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+                                                <input type="text" class="form-control" id="inputLastName" name="last_name" placeholder="Last Name">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputEmail">Email</label>
-                                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                            <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email">
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputSpecialty">Specialty</label>
-                                            <input type="text" class="form-control" id="inputSpecialty" placeholder="Specialty">
+                                            <label for="inputPhone">Phone Number</label>
+                                            <input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Phone Number">
                                         </div>
                                         <div class="form-group">
                                             <label for="inputLicenseNumber">License Number</label>
-                                            <input type="text" class="form-control" id="inputLicenseNumber" placeholder="License Number">
+                                            <input type="text" class="form-control" id="inputLicenseNumber" name="license_number" placeholder="License Number">
                                         </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="inputDateOfBirth">Date of Birth</label>
-                                                <input type="text" class="form-control datepicker" id="inputDateOfBirth">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="inputGender">Gender</label>
-                                                <select id="inputGender" class="form-control">
-                                                    <option selected>Choose...</option>
-                                                    <option>Male</option>
-                                                    <option>Female</option>
-                                                </select>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="inputDoctor">Assigned Doctor</label>
+                                            <select id="inputDoctor" class="form-control" name="assigned_doctor">
+                                                <option value="" selected>Select Doctor</option>
+                                                {% for doctor in doctors %}
+                                                <option value="{{ doctor.id }}">{{ doctor.first_name }} {{ doctor.last_name }}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary">Add Staff</button>
+                                        <button type="submit" class="btn btn-primary">Add Nurse</button>
                                     </form>
                                 </div>
                             </div>
@@ -81,5 +77,5 @@
         <!-- END: Card DATA -->
     </div>
 </main>
-<!-- END: Content -->
+
 {% endblock %}

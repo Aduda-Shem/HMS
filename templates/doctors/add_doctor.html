@@ -22,57 +22,90 @@
 
         <!-- START: Card Data -->
         <div class="row">
-            <div class="col-12 mt-4">
+            <div class="col-md-8 mx-auto">
                 <div class="card">
                     <div class="card-header">
                         <h6 class="card-title">Staff Information</h6>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <form>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="inputFirstName">First Name</label>
-                                                <input type="text" class="form-control rounded" id="inputFirstName" placeholder="First Name">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="inputLastName">Last Name</label>
-                                                <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputEmail">Email</label>
-                                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputSpecialty">Specialty</label>
-                                            <input type="text" class="form-control" id="inputSpecialty" placeholder="Specialty">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputLicenseNumber">License Number</label>
-                                            <input type="text" class="form-control" id="inputLicenseNumber" placeholder="License Number">
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="inputDateOfBirth">Date of Birth</label>
-                                                <input type="text" class="form-control datepicker" id="inputDateOfBirth">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="inputGender">Gender</label>
-                                                <select id="inputGender" class="form-control">
-                                                    <option selected>Choose...</option>
-                                                    <option>Male</option>
-                                                    <option>Female</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary">Add Staff</button>
-                                    </form>
+                            <form method="post" action="{% url 'add_doctor' %}">
+                                {% csrf_token %}
+                                <div class="form-group row">
+                                    <label for="inputFirstName" class="col-md-3 col-form-label">First Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control rounded" id="inputFirstName" name="first_name" placeholder="First Name">
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="form-group row">
+                                    <label for="inputLastName" class="col-md-3 col-form-label">Last Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="inputLastName" name="last_name" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputEmail" class="col-md-3 col-form-label">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputSpecialty" class="col-md-3 col-form-label">Specialty</label>
+                                    <div class="col-md-9">
+                                        <select id="inputSpecialty" class="form-control">
+                                            <option value="">Select Specialty</option>
+                                            <option value="Anesthesiology">Anesthesiology</option>
+                                            <option value="Cardiology">Cardiology</option>
+                                            <option value="Dermatology">Dermatology</option>
+                                            <option value="Endocrinology">Endocrinology</option>
+                                            <option value="Gastroenterology">Gastroenterology</option>
+                                            <option value="Hematology">Hematology</option>
+                                            <option value="Infectious Disease">Infectious Disease</option>
+                                            <option value="Nephrology">Nephrology</option>
+                                            <option value="Neurology">Neurology</option>
+                                            <option value="Oncology">Oncology</option>
+                                            <option value="Ophthalmology">Ophthalmology</option>
+                                            <option value="Orthopedics">Orthopedics</option>
+                                            <option value="Otolaryngology (ENT)">Otolaryngology (ENT)</option>
+                                            <option value="Pediatrics">Pediatrics</option>
+                                            <option value="Physical Medicine and Rehabilitation">Physical Medicine and Rehabilitation</option>
+                                            <option value="Psychiatry">Psychiatry</option>
+                                            <option value="Pulmonology">Pulmonology</option>
+                                            <option value="Radiology">Radiology</option>
+                                            <option value="Rheumatology">Rheumatology</option>
+                                            <option value="Urology">Urology</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputLicenseNumber" class="col-md-3 col-form-label">License Number</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="inputLicenseNumber" name="license_number" placeholder="License Number">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputDateOfBirth" class="col-md-3 col-form-label">Date of Birth</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control datepicker" id="inputDateOfBirth" name="date_of_birth">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputGender" class="col-md-3 col-form-label">Gender</label>
+                                    <div class="col-md-9">
+                                        <select id="inputGender" class="form-control" name="gender">
+                                            <option selected>Choose...</option>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-9 offset-md-3">
+                                        <button type="submit" class="btn btn-primary">Add Staff</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -81,5 +114,21 @@
         <!-- END: Card DATA -->
     </div>
 </main>
-<!-- END: Content -->
+
+<!-- Include Select2 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+<!-- Include jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Include Select2 JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<!-- Initialize Select2 -->
+<script>
+    $(document).ready(function() {
+        $('#inputSpecialty').select2();
+    });
+</script>
+
 {% endblock %}

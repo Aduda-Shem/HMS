@@ -54,6 +54,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 60 * 60 * 24 
+
 ROOT_URLCONF = 'hospital_management.urls'
 
 TEMPLATES = [
@@ -135,14 +145,14 @@ JAZZMIN_SETTINGS = {
     "site_header": "HMS Admin Panel",
     "site_brand": "HMS Admin Panel",
     "site_logo": "/static/images/ecom.jpg",
-    "login_logo": None,
-    "login_logo_dark": None,
+    "login_logo": "/static/images/ecom.jpg",
+    "login_logo_dark": "/static/images/ecom.jpg",
     "site_logo_classes": "img-circle",
-    "site_icon": None,
+    "site_icon": "/static/images/ecom.jpg",
     "welcome_sign": "Welcome to the HMS Admin Panel",
     "copyright": "HMS Admin Panel Ltd",
     "search_model": ["auth.User", "auth.Group"],
-    "user_avatar": None,
+    "user_avatar": "/static/images/ecom.jpg",
     "topmenu_links": [
         {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
         {"model": "auth.User"},
@@ -172,8 +182,8 @@ JAZZMIN_SETTINGS = {
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
     "related_modal_active": False,
-    "custom_css": None,
-    "custom_js": None,
+    "custom_css": "/static/css/main.css",
+    "custom_js": "/static/js/main.js",
     "use_google_fonts_cdn": True,
     "show_ui_builder": True,
     "changeform_format": "horizontal_tabs",

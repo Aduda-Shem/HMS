@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, logout as auth_logout, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import Doctor, Nurse
 from .forms import AddDoctorForm, AddNurseForm, LoginForm
 
 def register(request):
@@ -26,7 +25,8 @@ def login(request):
         if form.is_valid():
             email = form.cleaned_data['email']        
             password = form.cleaned_data['password']
-            user = authenticate(request, email=email, password=password)
+            user = authenticate(request, username=email, password=password)
+            print("USER: ", user)
             if user is not None and user.is_active:
                 auth_login(request, user)
                 messages.success(request, 'Successfully logged in')
@@ -75,6 +75,7 @@ def add_doctor(request):
     else:
         form = AddDoctorForm()
     return render(request, 'doctors/add_doctor.html', {'form': form})
+
 @login_required
 def add_nurse(request):
     if request.method == "POST":

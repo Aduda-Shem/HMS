@@ -10,21 +10,21 @@
                 <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
                     <div class="w-sm-100 mr-auto"><h4 class="mb-0">Hospital Records</h4></div>
 
-                            <!-- START: Search Bar -->
-        <div class="row mb-3">
-            <div class="col-12">
-                <form class="form-inline">
-                    <input type="text" class="form-control mr-2" placeholder="Search">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
-            </div>
-        </div>
-        <!-- END: Search Bar -->
+                    <!-- START: Search Bar -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <form class="form-inline">
+                                <input type="text" class="form-control mr-2" placeholder="Search">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- END: Search Bar -->
 
                     <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
                         <li class="breadcrumb-item">Home</li>
                         <li class="breadcrumb-item">Hospital</li>
-                        <li class="breadcrumb-item active"><a href="#">Records</a></li>
+                        <li class="breadcrumb-item active"><a href="{% url 'records' %}">Records</a></li>
                     </ol>
                 </div>
             </div>
@@ -34,48 +34,27 @@
         <!-- START: Records -->
         <div class="row">
             <div class="col-12 mt-4">
-                <!-- Dummy Data Record 1 -->
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h6 class="card-title">Record #1</h6>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            <p><strong>Name:</strong> John Doe</p>
-                            <p><strong>Admission Date:</strong> 2023-11-01</p>
-                            <p><strong>Diagnosis:</strong> Respiratory Infection</p>
-                            <!-- Add more record details as needed -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dummy Data Record 2 -->
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h6 class="card-title">Record #2</h6>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            <p><strong>Name:</strong> Jane Smith</p>
-                            <p><strong>Admission Date:</strong> 2023-11-05</p>
-                            <p><strong>Diagnosis:</strong> Fractured Arm</p>
-                            <!-- Add more record details as needed -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Loop through hospital records and display them here -->
-                {% for record in hospital_records %}
+                {% for record in medical_records %}
                 <div class="card mb-3">
                     <div class="card-header">
                         <h6 class="card-title">Record #{{ record.id }}</h6>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <p><strong>Name:</strong> {{ record.patient_name }}</p>
-                            <p><strong>Admission Date:</strong> {{ record.admission_date }}</p>
+                            <p><strong>Patient Name:</strong> {{ record.get_patient_full_name }}</p>
+                            <p><strong>Doctor:</strong> {{ record.get_doctor_full_name }}</p>
                             <p><strong>Diagnosis:</strong> {{ record.diagnosis }}</p>
-                            <!-- Add more record details as needed -->
+                            <p><strong>Prescription:</strong> {{ record.prescription }}</p>
+                            <p><strong>Admission Date:</strong> {{ record.get_date_created }}</p>
+                            <p><strong>Last Updated:</strong> {{ record.get_date_updated }}</p>
+                            <p><strong>Blood Pressure:</strong> {{ record.blood_pressure }}</p>
+                            <p><strong>Heart Rate:</strong> {{ record.heart_rate }}</p>
+                            <p><strong>Temperature:</strong> {{ record.temperature }}</p>
+                            <p><strong>Weight:</strong> {{ record.weight }}</p>
+                            <p><strong>Height:</strong> {{ record.height }}</p>
+                            <p><strong>Medical History:</strong> {{ record.medical_history }}</p>
+                            <p><strong>Family History:</strong> {{ record.family_history }}</p>
+                            <p><strong>Lab Results:</strong> {{ record.lab_results }}</p>
                         </div>
                     </div>
                 </div>

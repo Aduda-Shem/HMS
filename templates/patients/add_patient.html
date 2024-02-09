@@ -31,47 +31,58 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <form>
+                                    <form method="post">
+                                        {% csrf_token %}
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="inputFirstName">First Name</label>
-                                                <input type="text" class="form-control rounded" id="inputFirstName" placeholder="First Name">
+                                                <input type="text" class="form-control rounded" id="inputFirstName" placeholder="First Name" name="first_name">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputLastName">Last Name</label>
-                                                <input type="text" class "form-control" id="inputLastName" placeholder="Last Name">
+                                                <input type="text" class="form-control rounded" id="inputLastName" placeholder="Last Name" name="last_name">
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="inputDateOfBirth">Date of Birth</label>
-                                                <input type="text" class="form-control datepicker" id="inputDateOfBirth">
+                                                <label for="inputEmail">Email</label>
+                                                <input type="email" class="form-control rounded" id="inputEmail" placeholder="Email" name="email">
                                             </div>
                                             <div class="form-group col-md-6">
+                                                <label for="inputDateOfBirth">Date of Birth</label>
+                                                <input type="text" class="form-control datepicker rounded" id="inputDateOfBirth" name="date_of_birth">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
                                                 <label for="inputGender">Gender</label>
-                                                <select id="inputGender" class="form-control">
+                                                <select id="inputGender" class="form-control rounded" name="gender">
                                                     <option selected>Choose...</option>
                                                     <option>Male</option>
                                                     <option>Female</option>
                                                 </select>
                                             </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputIDNumber">ID Number</label>
+                                                <input type="text" class="form-control rounded" id="inputIDNumber" placeholder="ID Number" name="id_number">
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputAddress">Address</label>
-                                            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                                            <input type="text" class="form-control rounded" id="inputAddress" placeholder="1234 Main St" name="address">
                                         </div>
                                         <div class="form-group">
                                             <label for="inputPhone">Phone Number</label>
-                                            <input type="text" class="form-control" id="inputPhone" placeholder="Phone Number">
+                                            <input type="text" class="form-control rounded" id="inputPhone" placeholder="Phone Number" name="phone_number">
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="inputMedicalRecord">Medical Record Number</label>
-                                                <input type="text" class="form-control" id="inputMedicalRecord" placeholder="Medical Record Number">
+                                                <input type="text" class="form-control rounded" id="inputMedicalRecord" placeholder="Medical Record Number" name="medical_record_number">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputInsurance">Insurance Provider</label>
-                                                <input type="text" class="form-control" id="inputInsurance" placeholder="Insurance Provider">
+                                                <input type="text" class="form-control rounded" id="inputInsurance" placeholder="Insurance Provider" name="insurance_provider">
                                             </div>
                                         </div>
 

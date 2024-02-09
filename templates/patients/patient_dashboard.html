@@ -1,0 +1,111 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
+<main>
+    <div class="container-fluid site-width">
+        <!-- START: Breadcrumbs-->
+
+        <!-- END: Breadcrumbs-->
+
+        <!-- START: Card Data-->
+        <div class="row">
+            <!-- Existing cards... -->
+            <div class="col-lg-6 mt-3">
+                <div class="card">                           
+                    <div class="card-content">
+                        <div class="card-body">
+                            <!-- Replace with your chart data -->
+                            <canvas id="blood_pressure_chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="col-12 col-lg-6  mt-3">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">                               
+                        <h6 class="card-title">Patient Information</h6>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <ul style="list-style-type: none; padding-left: 0;">
+                                <li><strong>Email:</strong> {{ patient.user.email }}</li>
+                                <li><strong>Phone Number:</strong> {{ patient.phone_number }}</li>
+                                <li><strong>ID Number:</strong> {{ patient.id_number }}</li>
+                                <li><strong>Date of Birth:</strong> {{ patient.date_of_birth }}</li>
+                                <li><strong>Gender:</strong> {{ patient.gender }}</li>
+                                <li><strong>Insurance Provider:</strong> {{ patient.insurance_provider }}</li>
+                                <li><strong>Medical Record Number:</strong> {{ patient.medical_record_number }}</li>
+                                <li><strong>Address:</strong> {{ patient.address }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar for next appointment -->
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">                               
+                        <h6 class="card-title">Next Appointment</h6>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <!-- Replace with your calendar data -->
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- END: Card DATA-->                 
+    </div>
+</main>
+
+<!-- JavaScript for Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- JavaScript for Calendar -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<script>
+    // Sample data for blood pressure chart
+    var ctx = document.getElementById('blood_pressure_chart').getContext('2d');
+    var bloodPressureChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+                label: 'Systolic Pressure',
+                data: [120, 122, 118, 124],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Diastolic Pressure',
+                data: [80, 78, 82, 76],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    // Initialize FullCalendar
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            // Add your calendar options here
+        });
+    });
+</script>
+{% endblock %}

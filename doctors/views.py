@@ -3,8 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
-from doctors.models import HealthcareProfessional
+from doctors.models import HealthcareProfessional, Patient
+from patients.models import Appointment, Diagnosis
+from records.models import MedicalRecord
 from .forms import AddDoctorForm, AddHealthcareProfessionalForm, AddNurseForm, LoginForm
 
 def register(request):
@@ -21,6 +24,7 @@ def register(request):
             messages.error(request, 'Email already exists.')
     return render(request, 'users/register.html')
 
+
 def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -31,10 +35,11 @@ def login(request):
             if user is not None and user.is_active:
                 auth_login(request, user)
                 messages.success(request, 'Successfully logged in')
-                if hasattr(user, 'doctor'):  # Check if the user is associated with a Doctor instance
-                    return redirect('doctor_dashboard')
-                elif hasattr(user, 'nurse'):  # Check if the user is associated with a Nurse instance
-                    return redirect('nurse_dashboard')
+                if hasattr(user, 'healthcare_professional'):
+                    if user.healthcare_professional.role == 'doctor':
+                        return redirect('doctor_dashboard')
+                    elif user.healthcare_professional.role == 'nurse':
+                        return redirect('nurse_dashboard')
                 else:
                     return redirect('patient_dashboard')  # Redirect to patient dashboard if not a doctor or nurse
             else:
@@ -44,6 +49,7 @@ def login(request):
     else:
         form = LoginForm()
     return render(request, 'users/user_login.html', {'form': form})
+
 
 @login_required
 def user_logout(request):
@@ -58,6 +64,24 @@ def doctor_dashboard(request):
 @login_required
 def nurse_dashboard(request):
     return render(request, 'nurse/nurse_dashboard.html')
+
+@login_required
+def patient_dashboard(request):
+    current_user = request.user
+    patient = Patient.objects.get(user=current_user)
+    appointments = Appointment.objects.filter(patient=patient)
+    medical_records = MedicalRecord.objects.filter(patient=patient)
+    diagnoses = Diagnosis.objects.filter(patient=patient)
+
+    context = {
+        'patient': patient,
+        'appointments': appointments,
+        'medical_records': medical_records,
+        'diagnoses': diagnoses,
+    }
+
+    return render(request, 'patients/patient_dashboard.html', context)
+
 
 def create_user_with_id_password(license_number):
     password = f'user{license_number}'
@@ -137,32 +161,48 @@ def add_nurse(request):
 def add_healthcare_professional(request):
     if request.method == "POST":
         form = AddHealthcareProfessionalForm(request.POST)
-        print("FORM:", form.data)
         if form.is_valid():
-            print("jkdhasfgcvdastvy")
-            healthcare_professional = form.save()
-            healthcare_professional.save()
-
             user_data = form.cleaned_data
-            user = User.objects.create_user(
-                username=user_data['email'],
+            print("user_data", user_data)
+            User = get_user_model()
+            user = User.objects.create(
                 email=user_data['email'],
-                password='defaultpassword',
                 first_name=user_data['first_name'],
                 last_name=user_data['last_name']
             )
-
+            user.set_password(user_data['password1'])
+            user.save()  # Save the user with the password
             healthcare_professional_data = form.cleaned_data
-            print("heajsbkwdhjv", healthcare_professional_data)
-            healthcare_professional_data.pop('email')
-            healthcare_professional_data.pop('first_name')
-            healthcare_professional_data.pop('last_name')
+            role = healthcare_professional_data.pop('role')
             healthcare_professional_data['user'] = user
-
-            healthcare_professional = HealthcareProfessional.objects.create(**healthcare_professional_data)
-
-            messages.success(request, 'Healthcare professional added successfully')
-            return redirect('healthcare_professional_dashboard')
+            healthcare_professional_data['role'] = role 
+            try:
+                healthcare_professional = form.save()
+                messages.success(request, 'Healthcare professional added successfully')
+                return redirect('healthcare_professional_dashboard')
+            except Exception as e:
+                error_message = f"Error occurred while saving: {e}"
+                print(error_message)
+                messages.error(request, error_message)
+        else:
+            error_message = "Form is not valid."
+            print(form.errors) 
+            messages.error(request, error_message)
     else:
         form = AddHealthcareProfessionalForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+def view_doctors(request):
+    doctors = HealthcareProfessional.objects.filter(role='doctor')
+    context = {
+        'doctors': doctors
+    }
+    return render(request, 'doctors/list.html', context)
+
+def view_nurses(request):
+    doctors = HealthcareProfessional.objects.filter(role='nurses')
+    context = {
+        'doctors': doctors
+    }
+    return render(request, 'nurse/list.html', context)

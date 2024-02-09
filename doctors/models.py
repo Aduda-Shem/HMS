@@ -49,13 +49,18 @@ class Patient(models.Model):
     email = models.EmailField(_('Email address'), unique=True)
     first_name = models.CharField(_('First name'), max_length=50)
     last_name = models.CharField(_('Last name'), max_length=50)
+    phone_number = models.CharField(_('Phone Number'), max_length=50)
+    id_number = models.CharField(_('ID Number'), max_length=8, unique=True)
     date_of_birth = models.DateField(_('Date of birth'))
     GENDER_CHOICES = [
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('O', 'Other'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Other', 'Other'),
     ]
-    gender = models.CharField(_('Gender'), max_length=1, choices=GENDER_CHOICES)
+    gender = models.CharField(_('Gender'), max_length=10, choices=GENDER_CHOICES)
+    insurance_provider = models.CharField(_('Insurance Provider'), max_length=100, blank=True, null=True)
+    medical_record_number = models.CharField(_('Medical Record Number'), max_length=100, blank=True, null=True)
+    address = models.CharField(_('Address'), max_length=255, blank=True, null=True)
 
     class Meta:
         verbose_name = _('Patient')

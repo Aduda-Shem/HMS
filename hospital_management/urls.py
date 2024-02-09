@@ -29,8 +29,11 @@ urlpatterns = [
     # Dashboard
     path('doctor_dashboard', views.doctor_dashboard, name='doctor_dashboard'),
     path('nurse_dashboard', views.nurse_dashboard, name='nurse_dashboard'),
+    path('patient_dashboard', views.nurse_dashboard, name='patient_dashboard'),
 
     # adding new users and appointment and schedules
+    path('register', views.add_healthcare_professional, name='register'),
+
     path('add_doctor', views.add_doctor, name='add_doctor'),
     path('add_nurse', views.add_nurse, name='add_nurse'),
     path('add_patient', add_patient, name='add_patient'),

@@ -39,6 +39,28 @@
         .register-link:hover {
             text-decoration: underline;
         }
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        .form-row label {
+            flex-basis: 30%;
+            text-align: right;
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+        .form-row input[type="text"],
+        .form-row input[type="email"],
+        .form-row input[type="password"],
+        .form-row select {
+            flex-basis: 65%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+            outline: none;
+        }
     </style>
 </head>
 
@@ -61,42 +83,35 @@
             </div>
             <form action="{% url 'register' %}" method="post" class="space-y-6">
                 {% csrf_token %}
-                <div>
-                    <label for="{{ form.email.id_for_label }}" class="block mb-2 font-medium text-gray-800">Email:</label>
-                    {{ form.email }}
-                    {% for error in form.email.errors %}
-                    <span class="text-red-600">{{ error }}</span><br>
-                    {% endfor %}
+                <div class="form-row">
+                    <label for="id_email">Email:</label>
+                    {{form.email}}
                 </div>
-                <div>
-                    <label for="{{ form.first_name.id_for_label }}" class="block mb-2 font-medium text-gray-800">First Name:</label>
-                    {{ form.first_name }}
-                    {% for error in form.first_name.errors %}
-                    <span class="text-red-600">{{ error }}</span><br>
-                    {% endfor %}
+                <div class="form-row">
+                    <label for="id_first_name">First Name:</label>
+                    <input type="text" id="id_first_name" name="first_name" placeholder="Enter your first name" required>
                 </div>
-                <div>
-                    <label for="{{ form.last_name.id_for_label }}" class="block mb-2 font-medium text-gray-800">Last Name:</label>
-                    {{ form.last_name }}
-                    {% for error in form.last_name.errors %}
-                    <span class="text-red-600">{{ error }}</span><br>
-                    {% endfor %}
+                <div class="form-row">
+                    <label for="id_last_name">Last Name:</label>
+                    <input type="text" id="id_last_name" name="last_name" placeholder="Enter your last name" required>
                 </div>
-                <div>
-                    <label for="{{ form.password1.id_for_label }}" class="block mb-2 font-medium text-gray-800">Password:</label>
-                    {{ form.password1 }}
-                    {% for error in form.password1.errors %}
-                    <span class="text-red-600">{{ error }}</span><br>
-                    {% endfor %}
+                <div class="form-row">
+                    <label for="id_password1">Password:</label>
+                    <input type="password" id="id_password1" name="password1" placeholder="Enter your password" required>
                 </div>
-                <div>
-                    <label for="{{ form.password2.id_for_label }}" class="block mb-2 font-medium text-gray-800">Confirm Password:</label>
-                    {{ form.password2 }}
-                    {% for error in form.password2.errors %}
-                    <span class="text-red-600">{{ error }}</span><br>
-                    {% endfor %}
+                <div class="form-row">
+                    <label for="id_password2">Confirm Password:</label>
+                    <input type="password" id="id_password2" name="password2" placeholder="Confirm your password" required>
                 </div>
-                <div>
+                <div class="form-row">
+                    <label for="id_role">Role:</label>
+                    <select id="id_role" name="role" required>
+                        <option value="" disabled selected>Select a role</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="nurse">Nurse</option>
+                    </select>
+                </div>
+                <div class="form-row">
                     <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg">
                         Register
                     </button>

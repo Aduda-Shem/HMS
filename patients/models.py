@@ -2,13 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
-class Patient(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.EmailField(_('email address'), unique=True)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    date_of_birth = models.DateField()
-    gender = models.CharField(max_length=10)
+from doctors.models import Patient
 
 class FileNumber(models.Model):
     patient = models.OneToOneField(Patient, on_delete=models.CASCADE, related_name='file_number')

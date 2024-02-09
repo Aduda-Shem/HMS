@@ -1,7 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
 
-from doctors.models import Doctor, Nurse
+from doctors.models import HealthcareProfessional
 
 class CustomUserCreationForm(forms.Form):
     email = forms.EmailField(label='Email', max_length=100)
@@ -12,14 +11,15 @@ class LoginForm(forms.Form):
 
 class AddDoctorForm(forms.ModelForm):
     class Meta:
-        model = Doctor
-        fields = ['first_name', 'last_name', 'specialization', 'email', 'license_number', 'date_of_birth', 'gender']
+        model = HealthcareProfessional
+        fields = ['email', 'first_name', 'last_name', 'license_number']
 
 class AddNurseForm(forms.ModelForm):
     class Meta:
-        model = Nurse
-        fields = ['first_name', 'last_name', 'email', 'phone', 'assigned_doctor']
+        model = HealthcareProfessional
+        fields = ['email', 'first_name', 'last_name','license_number']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['assigned_doctor'].queryset = Doctor.objects.all() 
+class AddHealthcareProfessionalForm(forms.ModelForm):
+    class Meta:
+        model = HealthcareProfessional
+        fields = ['email', 'first_name', 'last_name', 'role', 'specialization', 'license_number', 'date_of_birth', 'gender']

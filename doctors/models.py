@@ -21,14 +21,14 @@ class HealthcareProfessional(models.Model):
         ('nurse', 'Nurse'),
     ]
     
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='healthcare_professional')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.EmailField(_('Email address'), unique=True)
     first_name = models.CharField(_('First name'), max_length=50)
     last_name = models.CharField(_('Last name'), max_length=50)
     role = models.CharField(_('Role'), max_length=10, choices=ROLE_CHOICES)
     specialization = models.CharField(_('Specialization'), max_length=100, blank=True, null=True)
-    license_number = models.CharField(_('License number'), max_length=50)
-    date_of_birth = models.DateField(_('Date of birth'))
+    license_number = models.CharField(_('License number'), max_length=50, null=True, blank=True)
+    date_of_birth = models.DateField(_('Date of birth'), blank=True, null=True)
     GENDER_CHOICES = [
         ('M', 'Male'),
         ('F', 'Female'),

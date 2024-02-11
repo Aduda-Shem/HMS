@@ -90,23 +90,25 @@
                     <a href="#"><i class="fas fa-home mr-1 text-xl"></i> Dashboard</a>
                     <ul>
                         {% if user.is_authenticated %}
-                            {% if user.healthcare_professional.role == 'doctor' %}
+                            <!-- <li>Role: {{ user.healthcareprofessional.role }}</li> -->
+                            {% if user.healthcareprofessional.role == 'doctor' %}
                                 <li><a href="{% url 'doctor_dashboard' %}"><i class="fas fa-th text-xl"></i> Doctor Dashboard</a></li>
-                            {% elif user.healthcare_professional.role == 'nurse' %}
+                            {% elif user.healthcareprofessional.role == 'nurse' %}
                                 <li><a href="{% url 'nurse_dashboard' %}"><i class="fas fa-th text-xl"></i> Nurse Dashboard</a></li>
                             {% else %}
                                 <li><a href="{% url 'patient_dashboard' %}"><i class="fas fa-th text-xl"></i> Patient Dashboard</a></li>
                             {% endif %}
                         {% endif %}
                     </ul>
+                    
                 </li>
                 
-                {% if user.is_authenticated and user.healthcare_professional.role %}
+                {% if user.is_authenticated %}
                 <li class="dropdown">
-                    <a href="{% url 'list_doctors' }"><i class="fas fa-user-md mr-1 text-xl"></i> Doctors</a>
+                    <a href="{% url 'list_doctors' %}"><i class="fas fa-user-md mr-1 text-xl"></i> Doctors</a>
                     <ul>
-                        <li><a href=""><i class="fas fa-user text-xl"></i> All Doctors</a></li>
-                        {% if user.is_authenticated and user.healthcare_professional.user == 'admin' %}
+                        <li><a href="{% url 'list_doctors' %}"><i class="fas fa-user text-xl"></i> All Doctors</a></li>
+                        {% if user.is_authenticated and user.healthcareprofessional.user == 'admin' %}
                             <li><a href="{% url 'add_doctor' %}"><i class="fas fa-plus text-xl"></i> Add Doctor</a></li>
                         {% endif %}
                     </ul>
@@ -116,7 +118,7 @@
                     <a href="#"><i class="fas fa-user-nurse mr-1 text-xl"></i> Nurses</a>
                     <ul>
                         <li><a href="{%url 'list_nurses' %}"><i class="fas fa-user text-xl"></i> All Nurses</a></li>
-                        {% if user.is_authenticated and user.healthcare_professional.user == 'admin' %}
+                        {% if user.is_authenticated and user.healthcareprofessional.user == 'admin' %}
                             <li><a href="{% url 'add_nurse' %}"><i class="fas fa-plus text-xl"></i> Add Nurse</a></li>
                         {% endif %}
                     </ul>

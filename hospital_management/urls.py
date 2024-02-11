@@ -35,7 +35,7 @@ urlpatterns = [
     path('register', views.add_healthcare_professional, name='register'),
 
     path('add_doctor', views.add_doctor, name='add_doctor'),
-    path('list_doctor', views.view_doctors, name='view_doctors'),
+    path('list_doctor', views.view_doctors, name='list_doctors'),
 
     path('add_nurse', views.add_nurse, name='add_nurse'),
     path('list_nurses', views.view_nurses, name='list_nurses'),

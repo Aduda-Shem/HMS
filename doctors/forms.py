@@ -21,11 +21,13 @@ class AddNurseForm(forms.ModelForm):
         fields = ['email', 'first_name', 'last_name','license_number']
 
 class AddHealthcareProfessionalForm(forms.ModelForm):
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput, required=True)
+
     class Meta:
         model = HealthcareProfessional
-        fields = ['email', 'first_name', 'last_name', 'role', 'specialization']
-
-
+        fields = ['email', 'password1', 'password2', 'first_name', 'last_name', 'role', 'specialization']
+        
 class AddPatientForm(forms.ModelForm):
     class Meta:
         model = Patient

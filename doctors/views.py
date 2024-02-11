@@ -164,8 +164,6 @@ def add_nurse(request):
     return render(request, 'nurses/add_nurse.html', {'form': form})
 
 
-
-# Self registeration
 def add_healthcare_professional(request):
     if request.method == "POST":
         form = AddHealthcareProfessionalForm(request.POST)

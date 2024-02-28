@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-from doctors.forms import AddPatientForm
+from doctors.forms import AddPatientForm, AppointmentForm
 from doctors.models import Patient
 
 from patients.models import Appointment
@@ -62,12 +62,16 @@ def view_patients(request):
 
 @login_required
 def add_appointment(request):
-
-
-    context = {
-    }
-
-    return render(request, 'appointment/add_appointment.html', context)
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('success_page') 
+    else:
+        form = AppointmentForm()
+    
+    context = {'form': form}
+    return render(request, 'appointment/add_appointments.html', context)
 
 @login_required
 def view_appointment(request):

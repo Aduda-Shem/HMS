@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 
 from doctors.models import HealthcareProfessional, Patient
+from patients.models import Appointment
 
 class CustomUserCreationForm(forms.Form):
     email = forms.EmailField(label='Email', max_length=100)
@@ -46,3 +47,15 @@ class AddPatientForm(forms.ModelForm):
         if Patient.objects.filter(email=email).exists():
             raise forms.ValidationError("This email is already registered.")
         return email
+    
+class AppointmentForm(forms.ModelForm):
+    patient = forms.ModelChoiceField(queryset=Patient.objects.all(), empty_label="Select a patient")
+    doctor = forms.ModelChoiceField(queryset=HealthcareProfessional.objects.all(), empty_label="Select a doctor")
+
+    class Meta:
+        model = Appointment
+        fields = ['patient', 'doctor', 'appointment_date', 'purpose', 'status']
+
+        widgets = {
+            'appointment_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }

@@ -22,7 +22,7 @@
 
         <!-- START: Card Data -->
         <div class="row">
-            <div class="col-12 mt-4">
+            <div class="col-lg-8 offset-lg-2 mt-4">
                 <div class="card">
                     <div class="card-header">
                         <h6 class="card-title">Appointment Information</h6>
@@ -31,24 +31,29 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <form>
+                                    <form method="POST">
+                                        {% csrf_token %}
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="inputPatient">Patient</label>
-                                                <input type="text" class="form-control" id="inputPatient" placeholder="Patient Name">
+                                                <label for="id_patient">Patient</label>
+                                                {{ form.patient }}
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="inputDoctor">Doctor</label>
-                                                <input type="text" class="form-control" id="inputDoctor" placeholder="Doctor Name">
+                                                <label for="id_doctor">Doctor</label>
+                                                {{ form.doctor }}
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputDate">Appointment Date</label>
-                                            <input type="text" class="form-control datepicker" id="inputDate">
+                                            <label for="id_appointment_date">Appointment Date</label>
+                                            <input type="date" class="form-control" id="id_appointment_date" name="appointment_date">
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputTime">Appointment Time</label>
-                                            <input type="time" class="form-control" id="inputTime">
+                                            <label for="id_purpose">Purpose</label>
+                                            {{ form.purpose }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_status">Status</label>
+                                            {{ form.status }}
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Add Appointment</button>

@@ -2,71 +2,96 @@
 {% load static %} 
 {% block content %}
 
-<main>
-    <div class="container-fluid site-width">
-        <!-- START: Breadcrumbs -->
-        <div class="row">
-            <div class="col-12  align-self-center">
-                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Add Appointment</h4></div>
+<!DOCTYPE html>
+<html lang="en">
 
-                    <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
-                        <li class="breadcrumb-item">Home</li>
-                        <li class="breadcrumb-item">Add Appointment</li>
-                        <li class="breadcrumb-item active"><a href="#">Appointment Information</a></li>
-                    </ol>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Appointment</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <header>
+        <!-- Header content here -->
+    </header>
+
+    <main>
+        <div class="container-fluid full-screen">
+            <!-- START: Breadcrumbs -->
+            <div class="row">
+                <div class="col-12 align-self-center">
+                    <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                        <div class="w-sm-100 mr-auto">
+                            <h4 class="mb-0">Add Appointment</h4>
+                        </div>
+
+                        <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item">Add Appointment</li>
+                            <li class="breadcrumb-item active"><a href="#">Appointment Information</a></li>
+                        </ol>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- END: Breadcrumbs -->
+            <!-- END: Breadcrumbs -->
 
-        <!-- START: Card Data -->
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2 mt-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h6 class="card-title">Appointment Information</h6>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <form method="POST">
-                                        {% csrf_token %}
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="id_patient">Patient</label>
-                                                {{ form.patient }}
+            <!-- START: Card Data -->
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title">Appointment Information</h6>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="id_patient">Patient</label>
+                                                    {{ form.patient }}
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="id_doctor">Doctor</label>
+                                                    {{ form.doctor }}
+                                                </div>
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="id_doctor">Doctor</label>
-                                                {{ form.doctor }}
+                                            <div class="form-group">
+                                                <label for="id_appointment_date">Appointment Date</label>
+                                                <input type="date" class="form-control" id="id_appointment_date" name="appointment_date">
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_appointment_date">Appointment Date</label>
-                                            <input type="date" class="form-control" id="id_appointment_date" name="appointment_date">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_purpose">Purpose</label>
-                                            {{ form.purpose }}
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_status">Status</label>
-                                            {{ form.status }}
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="id_purpose">Purpose</label>
+                                                {{ form.purpose }}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="id_status">Status</label>
+                                                {{ form.status }}
+                                            </div>
 
-                                        <button type="submit" class="btn btn-primary">Add Appointment</button>
-                                    </form>
+                                            <button type="submit" class="btn btn-primary">Add Appointment</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- END: Card DATA -->
         </div>
-        <!-- END: Card DATA -->
-    </div>
-</main>
+    </main>
+
+    <footer>
+        <!-- Footer content here -->
+    </footer>
+</body>
+
+</html>
+
 <!-- END: Content -->
 {% endblock %}

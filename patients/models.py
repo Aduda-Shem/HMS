@@ -4,15 +4,6 @@ from django.utils.translation import gettext_lazy as _
 
 from doctors.models import Patient
 
-class FileNumber(models.Model):
-    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, related_name='file_number')
-    number = models.CharField(max_length=20, unique=True)
-
-class Diagnosis(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='diagnoses')
-    diagnosis_date = models.DateField()
-    description = models.TextField()
-
 class Appointment(models.Model):
     PENDING = 'pending'
     IN_PROGRESS = 'in_progress'

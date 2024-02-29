@@ -3,62 +3,62 @@
 {% block content %}
 <main>
     <div class="container-fluid site-width">
-        <!-- START: Breadcrumbs-->
-
-        <!-- END: Breadcrumbs-->
-
-        <!-- START: Card Data-->
         <div class="row">
-            <!-- Existing cards... -->
+            <!-- Blood pressure chart card -->
             <div class="col-lg-6 mt-3">
-                <div class="card">                           
-                    <div class="card-content">
-                        <div class="card-body">
-                            <!-- Replace with your chart data -->
-                            <canvas id="blood_pressure_chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>  
-            <div class="col-12 col-lg-6  mt-3">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">                               
-                        <h6 class="card-title">Patient Information</h6>
+                    <div class="card-header">
+                        <h5 class="card-title">Blood Pressure Chart</h5>
                     </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            <ul style="list-style-type: none; padding-left: 0;">
-                                <li><strong>Email:</strong> {{ patient.user.email }}</li>
-                                <li><strong>Phone Number:</strong> {{ patient.phone_number }}</li>
-                                <li><strong>ID Number:</strong> {{ patient.id_number }}</li>
-                                <li><strong>Date of Birth:</strong> {{ patient.date_of_birth }}</li>
-                                <li><strong>Gender:</strong> {{ patient.gender }}</li>
-                                <li><strong>Insurance Provider:</strong> {{ patient.insurance_provider }}</li>
-                                <li><strong>Medical Record Number:</strong> {{ patient.medical_record_number }}</li>
-                                <li><strong>Address:</strong> {{ patient.address }}</li>
-                            </ul>
-                        </div>
+                    <div class="card-body">
+                        <canvas id="blood_pressure_chart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <!-- Calendar for next appointment -->
+            <!-- Patient information card -->
+            <div class="col-lg-6 mt-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Patient Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><strong>Email:</strong> {{ patient.user.email }}</li>
+                            <li><strong>Phone Number:</strong> {{ patient.phone_number }}</li>
+                            <li><strong>ID Number:</strong> {{ patient.id_number }}</li>
+                            <li><strong>Date of Birth:</strong> {{ patient.date_of_birth }}</li>
+                            <li><strong>Gender:</strong> {{ patient.gender }}</li>
+                            <li><strong>Insurance Provider:</strong> {{ patient.insurance_provider }}</li>
+                            <li><strong>Medical Record Number:</strong> {{ patient.medical_record_number }}</li>
+                            <li><strong>File Number:</strong> {{ patient.file_number }}</li>
+                            <li><strong>Address:</strong> {{ patient.address }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next appointment card -->
             <div class="col-12 mt-3">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">                               
-                        <h6 class="card-title">Next Appointment</h6>
+                    <div class="card-header">
+                        <h5 class="card-title">Next Appointment</h5>
                     </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            <!-- Replace with your calendar data -->
-                            <div id="calendar"></div>
-                        </div>
+                    <div class="card-body">
+                        {% if latest_appointment %}
+                            <ul class="list-unstyled">
+                                <li><strong>Appointment Date:</strong> {{ latest_appointment.appointment_date }}</li>
+                                <li><strong>Doctor:</strong> {{ latest_appointment.doctor }}</li>
+                                <li><strong>Purpose:</strong> {{ latest_appointment.purpose }}</li>
+                                <li><strong>Status:</strong> {{ latest_appointment.get_status_display }}</li>
+                            </ul>
+                        {% else %}
+                            <p>No upcoming appointments.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-
         </div>
-        <!-- END: Card DATA-->                 
     </div>
 </main>
 
@@ -69,7 +69,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 <script>
-    // Sample data for blood pressure chart
+    // Blood pressure chart
     var ctx = document.getElementById('blood_pressure_chart').getContext('2d');
     var bloodPressureChart = new Chart(ctx, {
         type: 'line',

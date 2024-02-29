@@ -49,13 +49,23 @@ class AddPatientForm(forms.ModelForm):
         return email
     
 class AppointmentForm(forms.ModelForm):
-    patient = forms.ModelChoiceField(queryset=Patient.objects.all(), empty_label="Select a patient")
-    doctor = forms.ModelChoiceField(queryset=HealthcareProfessional.objects.all(), empty_label="Select a doctor")
+    patient = forms.ModelChoiceField(
+        queryset=Patient.objects.all(),
+        empty_label="Select a patient",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    doctor = forms.ModelChoiceField(
+        queryset=HealthcareProfessional.objects.all(),
+        empty_label="Select a doctor",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = Appointment
         fields = ['patient', 'doctor', 'appointment_date', 'purpose', 'status']
 
         widgets = {
-            'appointment_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'appointment_date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
+            'purpose': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }

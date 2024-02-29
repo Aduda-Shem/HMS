@@ -23,7 +23,7 @@ File: Main Style
 - Bootstrap Nav Tabs
 - To do List
 - Checkbox Radio Button
-- Activity Listi
+- Activity List
 - Info Card
 - Business card
 - Star Rating
@@ -5865,7 +5865,7 @@ path.domain {
 
 /* gradient Template */
 .gbackground, .gradient, .gradient #header-fix, .gradient #header-fix .logo-bar, .gradient .sidebar, .gradient .sidebar .dropdown-menu, .gradient #settings .sidbarchat, .gradient.horizontal-menu #header-fix, .gradient.compact-menu .sidebar, .gradient .dropdown-menu {
-    background: url("../images/ecom.jpg");
+    background: url("../images/gradient-bg.jpg");
     background-size: cover !important;
     background-attachment: fixed !important;
     background-repeat: no-repeat !important;

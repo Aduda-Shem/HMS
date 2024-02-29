@@ -2,10 +2,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from doctors.forms import AddPatientForm, AppointmentForm
 from doctors.models import Patient
+from patients.forms import FileNumberForm
 
 from patients.models import Appointment
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+
+from records.models import FileNumber
 
 # Create your views here.
 @login_required
@@ -20,20 +23,25 @@ def add_patient(request):
                 first_name=user_data['first_name'],
                 last_name=user_data['last_name']
             )
-            user.set_password(user_data['id_number'])  # Set password as medical record number
+            user.set_password(user_data['id_number'])
             user.save()  # Save the user with the password
-            patient_data = {
-                'user': user,
-                'id_number': user_data['id_number'],  # Assuming medical_record_number corresponds to id_number in the Patient model
-                'medical_record_number': user_data['medical_record_number'],  # Assuming medical_record_number corresponds to id_number in the Patient model
-                'date_of_birth': user_data['date_of_birth'],
-                'gender': user_data['gender'],
-                'address': user_data['address'],
-                'phone_number': user_data['phone_number'],
-                'insurance_provider': user_data['insurance_provider'],
-            }
+            
             try:
+                patient_data = {
+                    'user': user,
+                    'id_number': user_data['id_number'],
+                    'medical_record_number': user_data['medical_record_number'],
+                    'date_of_birth': user_data['date_of_birth'],
+                    'gender': user_data['gender'],
+                    'address': user_data['address'],
+                    'phone_number': user_data['phone_number'],
+                    'insurance_provider': user_data['insurance_provider'],
+                }
                 patient = Patient.objects.create(**patient_data)
+                
+                # Create FileNumber with the same number as the ID number
+                file_number = FileNumber.objects.create(patient=patient, number=user_data['id_number'])
+                
                 messages.success(request, 'Patient added successfully')
                 return redirect('patients')
             except Exception as e:
@@ -47,6 +55,7 @@ def add_patient(request):
     else:
         form = AddPatientForm()
     return render(request, 'patients/add_patient.html', {'form': form})
+
 
 
 
@@ -66,7 +75,7 @@ def add_appointment(request):
         form = AppointmentForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('success_page') 
+            return redirect('appointments') 
     else:
         form = AppointmentForm()
     
@@ -91,7 +100,11 @@ def view_appointment(request):
 def change_appointment_status(request, appointment_id, new_status):
     appointment = get_object_or_404(Appointment, id=appointment_id)
 
-    appointment.status = new_status
-    appointment.save()
+    if new_status in [Appointment.IN_PROGRESS, Appointment.COMPLETED]:
+        appointment.status = new_status
+        appointment.save()
+    else:
+        pass
 
     return redirect('view_appointment')
+

@@ -41,7 +41,7 @@ class HealthcareProfessional(models.Model):
         verbose_name_plural = _('Healthcare Professionals')
 
     def __str__(self):
-        return self.email
+        return f"{self.first_name} {self.last_name}"
 
 
 class Patient(models.Model):
@@ -67,4 +67,4 @@ class Patient(models.Model):
         verbose_name_plural = _('Patients')
 
     def __str__(self):
-        return self.email
+        return f"{self.first_name} {self.last_name}"

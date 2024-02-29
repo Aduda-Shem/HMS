@@ -6,9 +6,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from doctors.models import HealthcareProfessional, Patient
-from patients.models import Appointment, Diagnosis
-from records.models import MedicalRecord
+from patients.models import Appointment
+from records.models import Diagnosis, MedicalRecord
 from .forms import AddDoctorForm, AddHealthcareProfessionalForm, AddNurseForm, LoginForm
+from django.utils.translation import gettext_lazy as _
 
 def register(request):
     if request.method == "POST":
@@ -77,18 +78,22 @@ def nurse_dashboard(request):
 def patient_dashboard(request):
     user = request.user
     patient = Patient.objects.get(user=user)
-    appointments = Appointment.objects.filter(patient=patient)
-    medical_records = MedicalRecord.objects.filter(patient=patient)
-    diagnoses = Diagnosis.objects.filter(patient=patient)
+    file_number = patient.file_number
+    
+    latest_appointment = Appointment.objects.filter(patient=patient).order_by('-appointment_date').first()
+    
+    medical_records = MedicalRecord.objects.filter(file_number=file_number)
+    diagnoses = Diagnosis.objects.filter(file_number=file_number)
 
     context = {
         'patient': patient,
-        'appointments': appointments,
+        'latest_appointment': latest_appointment,
         'medical_records': medical_records,
         'diagnoses': diagnoses,
     }
 
     return render(request, 'patients/patient_dashboard.html', context)
+
 
 
 def create_user_with_id_password(license_number):

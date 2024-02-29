@@ -48,7 +48,7 @@ urlpatterns = [
     path('records', records, name='records'),
 
     path('appointments/', view_appointment, name='appointments'),
-    path('appointments/<int:appointment_id>/change-status/<str:new_status>/', change_appointment_status, name='change_appointment_status'),
+    path('appointments/<int:appointment_id>/<str:new_status>/', change_appointment_status, name='change_appointment_status'),
 
 
 

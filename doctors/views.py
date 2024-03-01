@@ -77,6 +77,7 @@ def nurse_dashboard(request):
 @login_required
 def patient_dashboard(request):
     user = request.user
+    print("uuser: ", user)
     patient = Patient.objects.get(user=user)
     file_number = patient.file_number
     

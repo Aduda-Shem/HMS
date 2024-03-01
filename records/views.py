@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from doctors.models import Patient
@@ -7,15 +8,12 @@ from records.models import FileNumber, MedicalRecord
 # Create your views here.
 @login_required
 def records(request):
-    # Fetch medical records for the logged-in patient if available
     user = request.user
-    
     try:
         patient = Patient.objects.get(user=user)
         file_number = patient.file_number
         medical_records = MedicalRecord.objects.filter(file_number=file_number)
     except Patient.DoesNotExist:
-        # If patient does not exist, retrieve all medical records
         medical_records = MedicalRecord.objects.all()
 
     context = {
@@ -24,20 +22,40 @@ def records(request):
 
     return render(request, 'records/hospital_records.html', context)
 
+@login_required
+def view_record(request, record_id):
+    record = get_object_or_404(MedicalRecord, pk=record_id)
+
+    context = {
+        'medical_record': record,
+    }
+    
+    return render(request, 'records/view_record.html', context)
 
 @login_required
-def file(request):
+def view_patient_file(request):
     user = request.user
     try:
         patient = Patient.objects.get(user=user)
         file_record = FileNumber.objects.get(patient=patient)
     except Patient.DoesNotExist:
-        file_record = FileNumber.objects.all()
+        return HttpResponse("You are not authorized to view this page.")
     except FileNumber.DoesNotExist:
         file_record = None
 
     context = {
         'file_data': file_record,
+    }
+
+    return render(request, 'patients/view_patient_file.html', context)
+
+
+def view_all_files(request):
+    
+    file_records = FileNumber.objects.all()
+
+    context = {
+        'file_data': file_records,
     }
 
     return render(request, 'patients/hospital_file.html', context)

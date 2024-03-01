@@ -28,53 +28,63 @@
                     <div class="card-body">
                         <form method="post">
                             {% csrf_token %}
-                            <div class="form-group">
-                                <label for="doctor">Doctor:</label>
-                                <select id="doctor" name="doctor" class="form-control">
-                                    <!-- Populate options dynamically if needed -->
-                                </select>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="id_doctor">Doctor:</label>
+                                    {{ form.doctor }}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_diagnosis">Diagnosis:</label>
+                                    {{ form.diagnosis }}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_prescription">Prescription:</label>
+                                    {{ form.prescription }}
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="diagnosis">Diagnosis:</label>
-                                <input type="text" id="diagnosis" name="diagnosis" class="form-control" value="{{ medical_record.diagnosis }}">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="id_blood_pressure">Blood Pressure:</label>
+                                    {{ form.blood_pressure }}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_heart_rate">Heart Rate:</label>
+                                    {{ form.heart_rate }}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_temperature">Temperature:</label>
+                                    {{ form.temperature }}
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="prescription">Prescription:</label>
-                                <textarea id="prescription" name="prescription" class="form-control">{{ medical_record.prescription }}</textarea>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="id_weight">Weight:</label>
+                                    {{ form.weight }}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_height">Height:</label>
+                                    {{ form.height }}
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="blood_pressure">Blood Pressure:</label>
-                                <input type="text" id="blood_pressure" name="blood_pressure" class="form-control" value="{{ medical_record.blood_pressure }}">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="id_medical_history">Medical History:</label>
+                                    {{ form.medical_history }}
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="heart_rate">Heart Rate:</label>
-                                <input type="text" id="heart_rate" name="heart_rate" class="form-control" value="{{ medical_record.heart_rate }}">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="id_family_history">Family History:</label>
+                                    {{ form.family_history }}
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="temperature">Temperature:</label>
-                                <input type="text" id="temperature" name="temperature" class="form-control" value="{{ medical_record.temperature }}">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="id_lab_results">Lab Results:</label>
+                                    {{ form.lab_results }}
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="weight">Weight:</label>
-                                <input type="text" id="weight" name="weight" class="form-control" value="{{ medical_record.weight }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="height">Height:</label>
-                                <input type="text" id="height" name="height" class="form-control" value="{{ medical_record.height }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="medical_history">Medical History:</label>
-                                <textarea id="medical_history" name="medical_history" class="form-control">{{ medical_record.medical_history }}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="family_history">Family History:</label>
-                                <textarea id="family_history" name="family_history" class="form-control">{{ medical_record.family_history }}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="lab_results">Lab Results:</label>
-                                <textarea id="lab_results" name="lab_results" class="form-control">{{ medical_record.lab_results }}</textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </form>
                     </div>
                 </div>

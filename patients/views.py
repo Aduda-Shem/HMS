@@ -18,36 +18,41 @@ def add_patient(request):
         if form.is_valid():
             user_data = form.cleaned_data
             User = get_user_model()
-            user = User.objects.create(
-                email=user_data['email'],
-                first_name=user_data['first_name'],
-                last_name=user_data['last_name']
-            )
-            user.set_password(user_data['id_number'])
-            user.save()  # Save the user with the password
-            
-            try:
-                patient_data = {
-                    'user': user,
-                    'id_number': user_data['id_number'],
-                    'medical_record_number': user_data['medical_record_number'],
-                    'date_of_birth': user_data['date_of_birth'],
-                    'gender': user_data['gender'],
-                    'address': user_data['address'],
-                    'phone_number': user_data['phone_number'],
-                    'insurance_provider': user_data['insurance_provider'],
-                }
-                patient = Patient.objects.create(**patient_data)
-                
-                # Create FileNumber with the same number as the ID number
-                file_number = FileNumber.objects.create(patient=patient, number=user_data['id_number'])
-                
-                messages.success(request, 'Patient added successfully')
-                return redirect('patients')
-            except Exception as e:
-                error_message = f"Error occurred while saving patient: {e}"
-                print(error_message)
+            existing_user = User.objects.filter(email=user_data['email']).first()
+
+            if existing_user:
+                error_message = f"User with email '{user_data['email']}' already exists."
                 messages.error(request, error_message)
+                return redirect('add_patient')
+            else:
+                user = User.objects.create(
+                    email=user_data['email'],
+                    first_name=user_data['first_name'],
+                    last_name=user_data['last_name']
+                )
+                user.set_password(user_data['id_number'])
+                user.save()
+
+                try:
+                    patient_data = {
+                        'user': user,
+                        'id_number': user_data['id_number'],
+                        'medical_record_number': user_data['medical_record_number'],
+                        'date_of_birth': user_data['date_of_birth'],
+                        'gender': user_data['gender'],
+                        'address': user_data['address'],
+                        'phone_number': user_data['phone_number'],
+                        'insurance_provider': user_data['insurance_provider'],
+                    }
+                    patient = Patient.objects.create(**patient_data)
+                    file_number = FileNumber.objects.create(patient=patient, number=user_data['id_number'])
+
+                    messages.success(request, 'Patient added successfully')
+                    return redirect('patients')
+                except Exception as e:
+                    error_message = f"Error occurred while saving patient: {e}"
+                    print(error_message)
+                    messages.error(request, error_message)
         else:
             error_message = "Form is not valid."
             print(form.errors)

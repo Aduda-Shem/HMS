@@ -18,7 +18,7 @@ from django.urls import path, include
 from patients.views import add_appointment, change_appointment_status, view_appointment, add_patient, view_patients
 
 from doctors import views
-from records.views import records
+from records.views import file, records
 
 urlpatterns = [
     path('register/', views.register, name='register'),
@@ -46,6 +46,9 @@ urlpatterns = [
 
     # Records
     path('records', records, name='records'),
+    # file
+    path('file', file, name='view_file'),
+
 
     path('appointments/', view_appointment, name='appointments'),
     path('appointments/<int:appointment_id>/<str:new_status>/', change_appointment_status, name='change_appointment_status'),

@@ -46,7 +46,7 @@ class Symptom(models.Model):
 class Allergy(models.Model):
     medical_record = models.ForeignKey(MedicalRecord, on_delete=models.CASCADE, related_name='allergies')
     name = models.CharField(max_length=100)
-
+ 
     def __str__(self):
         return f"Allergy '{self.name}' for {self.medical_record.patient.first_name} {self.medical_record.patient.last_name}"
 

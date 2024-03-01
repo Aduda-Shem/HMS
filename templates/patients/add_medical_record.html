@@ -1,0 +1,14 @@
+<!-- add_medical_record.html -->
+{% extends 'base.html' %}
+{% block content %}
+<main>
+    <div class="container">
+        <h2>Add Medical Record</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- START: Main Content-->
+<main>
+    <div class="container-fluid site-width">
+        <!-- START: Breadcrumbs-->
+        <div class="row ">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Medical Records</h4></div>
+                    <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
+                        <li class="breadcrumb-item">HMS</li>
+                        <li class="breadcrumb-item">Healthcare Data</li>
+                        <li class="breadcrumb-item active"><a href="#">Medical Records</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- END: Breadcrumbs-->
+
+        <!-- START: Card Data-->
+        <div class="row">
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="card-header justify-content-between align-items-center">
+                        <h4 class="card-title">Medical Records</h4>
+                        <a href="{% url 'add_medical_record' file_data.id %}" class="btn btn-sm btn-primary">Add Medical Record</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example" class="display table dataTable table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Doctor</th>
+                                        <th>Diagnosis</th>
+                                        <th>Prescription</th>
+                                        <th>Blood Pressure</th>
+                                        <th>Heart Rate</th>
+                                        <th>Temperature</th>
+                                        <th>Weight</th>
+                                        <th>Height</th>
+                                        <th>Medical History</th>
+                                        <th>Family History</th>
+                                        <th>Lab Results</th>
+                                        <th>Date Created</th>
+                                        <th>Date Updated</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for medical_record in medical_records %}
+                                    <tr>
+                                        <td>{{ medical_record.doctor }}</td>
+                                        <td>{{ medical_record.diagnosis }}</td>
+                                        <td>{{ medical_record.prescription }}</td>
+                                        <td>{{ medical_record.blood_pressure }}</td>
+                                        <td>{{ medical_record.heart_rate }}</td>
+                                        <td>{{ medical_record.temperature }}</td>
+                                        <td>{{ medical_record.weight }}</td>
+                                        <td>{{ medical_record.height }}</td>
+                                        <td>{{ medical_record.medical_history }}</td>
+                                        <td>{{ medical_record.family_history }}</td>
+                                        <td>{{ medical_record.lab_results }}</td>
+                                        <td>{{ medical_record.date_created }}</td>
+                                        <td>{{ medical_record.date_updated }}</td>
+                                        <td>
+                                            <a href="{% url 'edit_medical_record' medical_record.id %}" class="btn btn-sm btn-info">Edit</a>
+                                            <a href="{% url 'delete_medical_record' medical_record.id %}" class="btn btn-sm btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Card DATA-->
+    </div>
+</main>
+<!-- END: Content-->
+{% endblock %}

@@ -43,7 +43,7 @@
                                         <td>{{ file_data.patient.first_name }} {{ file_data.patient.last_name }}</td>
                                         <td>{{ file_data.patient.date_of_birth }}</td>
                                         <td>
-                                            <a href="{% url 'view_file' %}" class="btn btn-sm btn-info">View</a>
+                                            <a href="{% url 'view_file' file_data.pk %}" class="btn btn-sm btn-info">View</a>
                                         </td>
                                     </tr>
                                     {% endfor %}

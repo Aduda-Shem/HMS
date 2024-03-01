@@ -43,14 +43,14 @@ def file(request):
     return render(request, 'patients/hospital_file.html', context)
 
 @login_required
-def file(request, file_number_id):
+def view_file(request, file_number_id):
     file_record = get_object_or_404(FileNumber, id=file_number_id)
     medical_records = file_record.medical_records.all()
     context = {
         'file_data': file_record,
         'medical_records': medical_records,
     }
-    return render(request, 'patients/hospital_file.html', context)
+    return render(request, 'patients/patient_file.html', context)
 
 def add_medical_record(request, file_number_id):
     file_record = get_object_or_404(FileNumber, id=file_number_id)

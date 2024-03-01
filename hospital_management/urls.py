@@ -18,7 +18,7 @@ from django.urls import path, include
 from patients.views import add_appointment, change_appointment_status, view_appointment, add_patient, view_patients
 
 from doctors import views
-from records.views import file, records
+from records.views import add_medical_record, delete_medical_record, edit_medical_record, file, records, view_file
 
 urlpatterns = [
     path('register/', views.register, name='register'),
@@ -48,6 +48,10 @@ urlpatterns = [
     path('records', records, name='records'),
     # file
     path('file', file, name='view_file'),
+    path('file/<int:file_number_id>/', view_file, name='view_file'),
+    path('file/<int:file_number_id>/add/', add_medical_record, name='add_medical_record'),
+    path('medical-record/<int:medical_record_id>/edit/', edit_medical_record, name='edit_medical_record'),
+    path('medical-record/<int:medical_record_id>/delete/', delete_medical_record, name='delete_medical_record'),
 
 
     path('appointments/', view_appointment, name='appointments'),

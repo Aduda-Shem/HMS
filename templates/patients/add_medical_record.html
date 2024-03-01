@@ -1,14 +1,97 @@
-<!-- add_medical_record.html -->
 {% extends 'base.html' %}
 {% block content %}
+<!-- START: Main Content-->
 <main>
-    <div class="container">
-        <h2>Add Medical Record</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+    <div class="container-fluid site-width">
+        <!-- START: Breadcrumbs-->
+        <div class="row ">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Add Medical Record</h4></div>
+                    <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
+                        <li class="breadcrumb-item">HMS</li>
+                        <li class="breadcrumb-item">Healthcare Data</li>
+                        <li class="breadcrumb-item active"><a href="#">Add Medical Record</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- END: Breadcrumbs-->
+
+        <!-- START: Card Data-->
+        <div class="row">
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="card-header justify-content-between align-items-center">
+                        <h4 class="card-title">Add Medical Record</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="doctor">Doctor:</label>
+                                    <input type="text" id="doctor" name="doctor" class="form-control" readonly>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="diagnosis">Diagnosis:</label>
+                                    <input type="text" id="diagnosis" name="diagnosis" class="form-control">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="prescription">Prescription:</label>
+                                    <textarea id="prescription" name="prescription" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="blood_pressure">Blood Pressure:</label>
+                                    <input type="text" id="blood_pressure" name="blood_pressure" class="form-control">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="heart_rate">Heart Rate:</label>
+                                    <input type="text" id="heart_rate" name="heart_rate" class="form-control">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="temperature">Temperature:</label>
+                                    <input type="text" id="temperature" name="temperature" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="weight">Weight:</label>
+                                    <input type="text" id="weight" name="weight" class="form-control">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="height">Height:</label>
+                                    <input type="text" id="height" name="height" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="medical_history">Medical History:</label>
+                                    <textarea id="medical_history" name="medical_history" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="family_history">Family History:</label>
+                                    <textarea id="family_history" name="family_history" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="lab_results">Lab Results:</label>
+                                    <textarea id="lab_results" name="lab_results" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Card DATA-->
     </div>
 </main>
+<!-- END: Content-->
 {% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+{ %load static% }
+<main>
+    <div class="container-fluid site-width">
+        <!-- START: Breadcrumbs -->
+        <div class="row">
+            <div class="col-12 align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto">
+                        <h4 class="mb-0">View Medical Record</h4>
+                    </div>
+                    <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
+                        <li class="breadcrumb-item">Home</li>
+                        <li class="breadcrumb-item">Records</li>
+                        <li class="breadcrumb-item active">View Medical Record</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- END: Breadcrumbs -->
+
+        <!-- START: Medical Record Details -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Medical Record Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong><b>Record #</b></strong> {{ medical_record.id }}</li>
+                            <li class="list-group-item"><strong>Patient Name:</strong> {{ medical_record.file_number.patient }}</li>
+                            <li class="list-group-item"><strong>Doctor:</strong> {{ medical_record.doctor.user.get_full_name }}</li>
+                            <li class="list-group-item"><strong>Diagnosis:</strong> {{ medical_record.diagnosis.name }}</li>
+                            <li class="list-group-item"><strong>Prescription:</strong> {{ medical_record.prescription }}</li>
+                            <li class="list-group-item"><strong>Admission Date:</strong> {{ medical_record.date_created }}</li>
+                            <li class="list-group-item"><strong>Last Updated:</strong> {{ medical_record.date_updated }}</li>
+                            <li class="list-group-item"><strong>Blood Pressure:</strong> {{ medical_record.blood_pressure }}</li>
+                            <li class="list-group-item"><strong>Heart Rate:</strong> {{ medical_record.heart_rate }}</li>
+                            <li class="list-group-item"><strong>Temperature:</strong> {{ medical_record.temperature }}</li>
+                            <li class="list-group-item"><strong>Weight:</strong> {{ medical_record.weight }}</li>
+                            <li class="list-group-item"><strong>Height:</strong> {{ medical_record.height }}</li>
+                            <li class="list-group-item"><strong>Medical History:</strong> {{ medical_record.medical_history }}</li>
+                            <li class="list-group-item"><strong>Family History:</strong> {{ medical_record.family_history }}</li>
+                            <li class="list-group-item"><strong>Lab Results:</strong> {{ medical_record.lab_results }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Medical Record Details -->
+    </div>
+</main>
+
+<!-- END: Page Script JS-->
+{%endblock%}

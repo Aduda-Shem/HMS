@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-{% load static %}
-<!-- START: Main Content-->
 <main>
     <div class="container-fluid site-width">
-        <!-- START: Breadcrumbs-->
-        <div class="row ">
-            <div class="col-12  align-self-center">
+        <!-- START: Breadcrumbs -->
+        <div class="row">
+            <div class="col-12 align-self-center">
                 <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Hospital Files</h4></div>
+                    <div class="w-sm-100 mr-auto">
+                        <h4 class="mb-0">Hospital Files</h4>
+                    </div>
                     <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
                         <li class="breadcrumb-item">HMS</li>
                         <li class="breadcrumb-item">Healthcare Data</li>
@@ -17,9 +17,9 @@
                 </div>
             </div>
         </div>
-        <!-- END: Breadcrumbs-->
+        <!-- END: Breadcrumbs -->
 
-        <!-- START: Card Data-->
+        <!-- START: Card Data -->
         <div class="row">
             <div class="col-12 mt-3">
                 <div class="card">
@@ -38,7 +38,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for file_data in file_data %}
                                     <tr>
                                         <td>{{ file_data.number }}</td>
                                         <td>{{ file_data.patient.first_name }} {{ file_data.patient.last_name }}</td>
@@ -47,7 +46,6 @@
                                             <a href="{% url 'view_file' file_data.pk %}" class="btn btn-sm btn-info">View</a>
                                         </td>
                                     </tr>
-                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -55,37 +53,8 @@
                 </div>
             </div>
         </div>
-        <!-- END: Card DATA-->
+        <!-- END: Card Data -->
     </div>
 </main>
-<!-- END: Content-->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  $(document).ready(function() {
-    $("#searchInput").on("keyup", function() {
-      var value = $(this).val().toLowerCase();
-      $("table tbody tr").filter(function() {
-        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-      });
-    });
-  });
-</script>
-
-<!-- START: Page Vendor JS-->
-<script src="{% static '/vendors/datatable/js/jquery.dataTables.min.js' %}"></script> 
-<script src="{% static '/vendors/datatable/js/dataTables.bootstrap4.min.js' %}"></script>
-<script src="{% static '/vendors/datatable/jszip/jszip.min.js' %}"></script>
-<script src="{% static '/vendors/datatable/pdfmake/pdfmake.min.js' %}"></script>
-<script src="{% static '/vendors/datatable/pdfmake/vfs_fonts.js' %}"></script>
-<script src="{% static '/vendors/datatable/buttons/js/dataTables.buttons.min.js' %}"></script>
-<script src="{% static '/vendors/datatable/buttons/js/buttons.bootstrap4.min.js' %}"></script>
-<script src="{% static '/vendors/datatable/buttons/js/buttons.colVis.min.js' %}"></script>
-<script src="{% static '/vendors/datatable/buttons/js/buttons.flash.min.js' %}"></script>
-<script src="{% static '/vendors/datatable/buttons/js/buttons.html5.min.js' %}"></script>
-<script src="{% static '/vendors/datatable/buttons/js/buttons.print.min.js' %}"></script>
-<!-- END: Page Vendor JS-->
-
-<!-- START: Page Script JS-->        
-<script src="{% static '/js/datatable.script.js' %}"></script>
-<!-- END: Page Script JS-->
-{%endblock%}
+<!-- END: Content -->
+{% endblock %}

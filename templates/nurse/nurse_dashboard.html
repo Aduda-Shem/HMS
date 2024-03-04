@@ -1,26 +1,13 @@
-{% extends 'base.html' %} 
-{% load static %} 
+{% extends 'base.html' %}
 {% block content %}
 <main>
     <div class="container-fluid site-width">
         <!-- START: Breadcrumbs-->
         <div class="row">
             <div class="col-12">
-
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-7  align-self-center  my-4">
-                        <div class="sub-header align-self-center d-sm-flex w-100 rounded">
-                            <div class="w-sm-100"><h4 class="mb-0">Dashboard</h4> <p>Welcome to the admin panel</p>
-                                <a href="#" class="btn btn-primary">Get Started <i class="fas fa-arrow-right"></i></a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-5 my-4">
-                        <div id="flot-stacking" class="header-chart"></div>
-                    </div>
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Nurse Dashboard</h4></div>
                 </div>
-
             </div>
         </div>
         <!-- END: Breadcrumbs-->
@@ -30,7 +17,7 @@
             <div class="col-12 col-sm-6 col-xl-4 mt-3">
                 <div class="card">
                     <div class="card-body text-info border-bottom border-info border-w-5">
-                        <h2 class="text-center">5,120</h2>
+                        <h2 class="text-center">{{ patients_count }}</h2>
                         <h6 class="text-center">Patients Treated</h6>       
                     </div>
                 </div>
@@ -38,7 +25,7 @@
             <div class="col-12 col-sm-6 col-xl-4 mt-3">
                 <div class="card">
                     <div class="card-body text-success border-bottom border-success border-w-5">
-                        <h2 class="text-center">3,560</h2>
+                        <h2 class="text-center">{{ surgeries_count }}</h2>
                         <h6 class="text-center">Successful Surgeries</h6>       
                     </div>
                 </div>
@@ -46,7 +33,7 @@
             <div class="col-12 col-sm-6 col-xl-4 mt-3">
                 <div class="card">
                     <div class="card-body text-danger border-bottom border-danger border-w-5">
-                        <h2 class="text-center">120</h2>
+                        <h2 class="text-center">{{ emergency_admissions_count }}</h2>
                         <h6 class="text-center">Emergency Admissions</h6>       
                     </div>
                 </div>
@@ -57,7 +44,6 @@
                     <div class="card-content">
                         <div class="card-body">
                             <canvas id="chartjs_corona"></canvas>
-
                         </div>
                     </div>
                 </div>
@@ -126,14 +112,8 @@
                     </div>
                 </div>
             </div>
-            
-
-
         </div>
-        <!-- END: Card DATA-->                 
+        <!-- END: Card DATA-->
     </div>
 </main>
-
-
-
 {% endblock %}

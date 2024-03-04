@@ -16,9 +16,6 @@
 
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-5 my-4">
-                        <div id="flot-stacking" class="header-chart"></div>
-                    </div>
                 </div>
 
             </div>
@@ -30,7 +27,7 @@
             <div class="col-12 col-sm-6 col-xl-4 mt-3">
                 <div class="card">
                     <div class="card-body text-info border-bottom border-info border-w-5">
-                        <h2 class="text-center">5,120</h2>
+                        <h2 class="text-center">{{ patients_count }}</h2>
                         <h6 class="text-center">Patients Treated</h6>       
                     </div>
                 </div>
@@ -38,30 +35,20 @@
             <div class="col-12 col-sm-6 col-xl-4 mt-3">
                 <div class="card">
                     <div class="card-body text-success border-bottom border-success border-w-5">
-                        <h2 class="text-center">3,560</h2>
-                        <h6 class="text-center">Successful Surgeries</h6>       
+                        <h2 class="text-center">{{ medical_records_count }}</h2>
+                        <h6 class="text-center">Medical Records</h6>       
                     </div>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-xl-4 mt-3">
                 <div class="card">
                     <div class="card-body text-danger border-bottom border-danger border-w-5">
-                        <h2 class="text-center">120</h2>
-                        <h6 class="text-center">Emergency Admissions</h6>       
+                        <h2 class="text-center">{{ diagnoses_count }}</h2>
+                        <h6 class="text-center">Diagnoses</h6>       
                     </div>
                 </div>
             </div>            
 
-            <div class="col-12 col-lg-8  mt-3">
-                <div class="card">                           
-                    <div class="card-content">
-                        <div class="card-body">
-                            <canvas id="chartjs_corona"></canvas>
-
-                        </div>
-                    </div>
-                </div>
-            </div>     
             <div class="col-lg-4 mt-3">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">                               
@@ -79,46 +66,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for condition, active_cases, recovered_cases in conditions_data %}
                                         <tr>
-                                            <td>COVID-19</td>
-                                            <td class="text-right">1,234</td>
-                                            <td class="text-right">876</td>
+                                            <td>{{ condition }}</td>
+                                            <td class="text-right">{{ active_cases }}</td>
+                                            <td class="text-right">{{ recovered_cases }}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Heart Disease</td>
-                                            <td class="text-right">543</td>
-                                            <td class="text-right">432</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cancer</td>
-                                            <td class="text-right">765</td>
-                                            <td class="text-right">567</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Diabetes</td>
-                                            <td class="text-right">321</td>
-                                            <td class="text-right">210</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Stroke</td>
-                                            <td class="text-right">198</td>
-                                            <td class="text-right">155</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Respiratory Disorders</td>
-                                            <td class="text-right">432</td>
-                                            <td class="text-right">345</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Hypertension</td>
-                                            <td class="text-right">876</td>
-                                            <td class="text-right">654</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Other</td>
-                                            <td class="text-right">432</td>
-                                            <td class="text-right">310</td>
-                                        </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -127,13 +81,56 @@
                 </div>
             </div>
             
+            <!-- Display Appointments -->
+            <div class="col-lg-8 mt-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Appointments</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Patient</th>
+                                        <th>Purpose</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for appointment in appointments %}
+                                    <tr>
+                                        <td>{{ appointment.appointment_date }}</td>
+                                        <td>{{ appointment.patient }}</td>
+                                        <td>{{ appointment.purpose }}</td>
+                                        <td>{{ appointment.status }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-
+            <!-- Display Schedules -->
+            <div class="col-lg-12 mt-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Schedules</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            {% for schedule in schedules %}
+                            <li>{{ schedule.doctor }} - {{ schedule.start_time }} to {{ schedule.end_time }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>        
         </div>
         <!-- END: Card DATA-->                 
     </div>
 </main>
-
-
-
 {% endblock %}

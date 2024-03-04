@@ -11,14 +11,14 @@
                     <div class="w-sm-100 mr-auto"><h4 class="mb-0">Hospital Records</h4></div>
 
                     <!-- START: Search Bar -->
-                    <div class="row mb-3">
+                    <!-- <div class="row mb-3">
                         <div class="col-12">
                             <form class="form-inline">
                                 <input type="text" class="form-control mr-2" placeholder="Search">
                                 <button type="submit" class="btn btn-primary">Search</button>
                             </form>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- END: Search Bar -->
 
                     <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
@@ -33,36 +33,87 @@
 
         <!-- START: Records -->
         <div class="row">
-            <div class="col-12 mt-4">
-                {% for record in medical_records %}
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h6 class="card-title">Record #{{ record.id }}</h6>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            <p><strong>Patient Name:</strong> {{ record.get_patient_full_name }}</p>
-                            <p><strong>Doctor:</strong> {{ record.get_doctor_full_name }}</p>
-                            <p><strong>Diagnosis:</strong> {{ record.diagnosis }}</p>
-                            <p><strong>Prescription:</strong> {{ record.prescription }}</p>
-                            <p><strong>Admission Date:</strong> {{ record.get_date_created }}</p>
-                            <p><strong>Last Updated:</strong> {{ record.get_date_updated }}</p>
-                            <p><strong>Blood Pressure:</strong> {{ record.blood_pressure }}</p>
-                            <p><strong>Heart Rate:</strong> {{ record.heart_rate }}</p>
-                            <p><strong>Temperature:</strong> {{ record.temperature }}</p>
-                            <p><strong>Weight:</strong> {{ record.weight }}</p>
-                            <p><strong>Height:</strong> {{ record.height }}</p>
-                            <p><strong>Medical History:</strong> {{ record.medical_history }}</p>
-                            <p><strong>Family History:</strong> {{ record.family_history }}</p>
-                            <p><strong>Lab Results:</strong> {{ record.lab_results }}</p>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="card-header  justify-content-between align-items-center">                               
+                        <h4 class="card-title">HealthcareData</h4> 
+                    </div> 
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example" class="display table dataTable table-striped table-bordered" >               
+                    <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Record #</th>
+                            <th>Patient Name</th>
+                            <th>Doctor</th>
+                            <th>Diagnosis</th>
+                            <th>Prescription</th>
+                            <th>Admission Date</th>
+                            <th>Blood Pressure</th>
+                            <th>Heart Rate</th>
+                            <th>Temperature</th>
+                            <th>Lab Results</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in medical_records %}
+                        <tr>
+                            <td>{{ record.id }}</td>
+                            <td>{{ record.file_number.patient }}</td>
+                            <td>{{ record.doctor.user.first_name }} {{ record.doctor.user.last_name }}</td>
+                            <td>{{ record.diagnosis.name }}</td>
+                            <td>{{ record.prescription }}</td>
+                            <td>{{ record.date_created }}</td>
+                            <td>{{ record.blood_pressure }}</td>
+                            <td>{{ record.heart_rate }}</td>
+                            <td>{{ record.temperature }}</td>
+                            <td>{{ record.lab_results }}</td>
+                            <td>
+                                <a href="{% url 'view_record' record.id %}" class="btn btn-primary btn-sm">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-        <!-- END: Records -->
-    </div>
+    </div> 
+
+</div>                  
+</div>
+<!-- END: Card DATA-->
+</div>
 </main>
-<!-- END: Content -->
-{% endblock %}
+<!-- END: Content-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#searchInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("table tbody tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
+  });
+</script>
+
+<!-- START: Page Vendor JS-->
+<script src="{% static '/vendors/datatable/js/jquery.dataTables.min.js' %}"></script> 
+<script src="{% static '/vendors/datatable/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/jszip/jszip.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/buttons.flash.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/buttons.print.min.js' %}"></script>
+<!-- END: Page Vendor JS-->
+
+<!-- START: Page Script JS-->        
+<script src="{% static '/js/datatable.script.js' %}"></script>
+<!-- END: Page Script JS-->
+{%endblock%}

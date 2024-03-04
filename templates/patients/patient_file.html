@@ -40,11 +40,8 @@
                                         <th>Temperature</th>
                                         <th>Weight</th>
                                         <th>Height</th>
-                                        <th>Medical History</th>
-                                        <th>Family History</th>
                                         <th>Lab Results</th>
                                         <th>Date Created</th>
-                                        <th>Date Updated</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -59,11 +56,8 @@
                                         <td>{{ medical_record.temperature }}</td>
                                         <td>{{ medical_record.weight }}</td>
                                         <td>{{ medical_record.height }}</td>
-                                        <td>{{ medical_record.medical_history }}</td>
-                                        <td>{{ medical_record.family_history }}</td>
                                         <td>{{ medical_record.lab_results }}</td>
                                         <td>{{ medical_record.date_created }}</td>
-                                        <td>{{ medical_record.date_updated }}</td>
                                         <td>
                                             <a href="{% url 'edit_medical_record' medical_record.id %}" class="btn btn-sm btn-info">Edit</a>
                                             <a href="{% url 'delete_medical_record' medical_record.id %}" class="btn btn-sm btn-danger">Delete</a>

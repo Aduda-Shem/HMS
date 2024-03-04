@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from doctors.models import HealthcareProfessional, Patient
-from patients.models import Appointment
-from records.models import Diagnosis, MedicalRecord
+from patients.models import Appointment, Schedule
+from records.models import Allergy, Diagnosis, FileNumber, MedicalRecord, Medication, Symptom
 from .forms import AddDoctorForm, AddHealthcareProfessionalForm, AddNurseForm, LoginForm
 from django.utils.translation import gettext_lazy as _
 
@@ -65,18 +65,65 @@ def user_logout(request):
 @login_required
 def doctor_dashboard(request):
     user = request.user
+    appointments = Appointment.objects.filter(doctor=user.username)
+    schedules = Schedule.objects.filter(doctor=user.username)
+    patients_count = FileNumber.objects.count()
+    diagnoses_count = Diagnosis.objects.count()
+    medical_records_count = MedicalRecord.objects.count()
+    symptoms_count = Symptom.objects.count()
+    allergies_count = Allergy.objects.count()
+    medications_count = Medication.objects.count()
+    conditions_data = [
+        ('COVID-19', 1234, 876),
+        ('Heart Disease', 543, 432),
+        ('Cancer', 765, 567),
+        ('Diabetes', 321, 210),
+        ('Stroke', 198, 155),
+        ('Respiratory Disorders', 432, 345),
+        ('Hypertension', 876, 654),
+        ('Other', 432, 310),
+    ]
 
-    return render(request, 'doctors/doctor_dashboard.html')
+    context = {
+        'appointments': appointments,
+        'schedules': schedules,
+        'patients_count': patients_count,
+        'diagnoses_count': diagnoses_count,
+        'medical_records_count': medical_records_count,
+        'symptoms_count': symptoms_count,
+        'allergies_count': allergies_count,
+        'medications_count': medications_count,
+        'conditions_data': conditions_data,
+    }
+
+    return render(request, 'doctors/doctor_dashboard.html', context)
 
 @login_required
 def nurse_dashboard(request):
     user = request.user
+    appointments = Appointment.objects.all()
+    patients_count = FileNumber.objects.count()
+    diagnoses_count = Diagnosis.objects.count()
+    medical_records_count = MedicalRecord.objects.count()
+    symptoms_count = Symptom.objects.count()
+    allergies_count = Allergy.objects.count()
+    medications_count = Medication.objects.count()
 
-    return render(request, 'nurse/nurse_dashboard.html')
+    context = {
+        'appointments': appointments,
+        'patients_count': patients_count,
+        'diagnoses_count': diagnoses_count,
+        'medical_records_count': medical_records_count,
+        'symptoms_count': symptoms_count,
+        'allergies_count': allergies_count,
+        'medications_count': medications_count,
+    }
 
+    return render(request, 'nurse/nurse_dashboard.html', context)
 @login_required
 def patient_dashboard(request):
     user = request.user
+    print("uuser: ", user)
     patient = Patient.objects.get(user=user)
     file_number = patient.file_number
     

@@ -6,9 +6,10 @@
     <div class="container-fluid site-width">
         <!-- START: Breadcrumbs-->
         <div class="row">
-            <div class="col-12  align-self-center">
+            <div class="col-12 align-self-center">
                 <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Appointments Board</h4>
+                    <div class="w-sm-100 mr-auto">
+                        <h4 class="mb-0">Appointments Board</h4>
                     </div>
 
                     <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
@@ -43,17 +44,19 @@
                         <div class="task-list">
                             <!-- Appointments in Todo -->
                             {% for appointment in pending_appointments %}
-                            <div class="card my-2 task-card">
+                            <div class="card my-2 task-card overflow-auto">
                                 <div class="card-content">
                                     <div class="card-body p-4 body-color">
                                         <h6 class="mb-3 font-w-600">Patient: {{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</h6>
                                         <h6 class="mb-3 font-w-600">Doctor: {{ appointment.doctor }}</h6>
                                         <div class="task-content mb-3">{{ appointment.purpose }}</div>
                                         <p class="font-w-500 tx-s-12"><i class="icon-calendar"></i> <span class="task-date">{{ appointment.appointment_date }}</span></p>
-                                        <div class="d-flex">
-                                            <div class="my-auto line-h-1 h5">
-                                                <button class="text-primary edit-task" data-toggle="modal" data-target="#edittask" data-appointment-id="{{ appointment.id }}"><i class="icon-pencil"></i></button>
-                                                <button class="text-danger delete-task" data-appointment-id="{{ appointment.id }}"><i class="icon-trash"></i></button>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <button class="btn btn-success change-status" data-appointment-id="{{ appointment.id }}" data-new-status="in_progress"><i class="fas fa-play"></i> Start Appointment</button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-danger delete-task" data-appointment-id="{{ appointment.id }}"><i class="icon-trash"></i> Delete</button>
                                             </div>
                                         </div>
                                     </div>
@@ -61,19 +64,15 @@
                             </div>
                             {% endfor %}
                         </div>
-
-                        <!-- <a href="#" class="bg-primary w-100 d-block text-center py-2 px-2 mt-3 rounded text-white add-task" data-toggle="modal" data-target="#addtask">
-                            <i class="icon-plus align-middle text-white"></i> <span>Add Appointment</span>
-                        </a> -->
                     </div>
                 </div>
             </div>
 
             <!-- In Progress -->
             <div class="col-12 col-md-4 mt-3 task-list-item">
-                <div class="card bg-primary-light" style="height: 500px;">
+                <div class="card bg-primary-light" style="height: 1200px;">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="card-title">In progress</h6>
+                        <h6 class="card-title">In Progress</h6>
                         <div class="dropdown">
                             <a href="#" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="ml-2 icon-arrow-down"></i>
@@ -89,17 +88,19 @@
                         <div class="task-list">
                             <!-- Appointments in In Progress -->
                             {% for appointment in in_progress_appointments %}
-                            <div class="card my-2 task-card">
+                            <div class="card my-2 task-card overflow-auto">
                                 <div class="card-content">
                                     <div class="card-body p-4 body-color">
                                         <h6 class="mb-3 font-w-600">Patient: {{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</h6>
                                         <h6 class="mb-3 font-w-600">Doctor: {{ appointment.doctor }}</h6>                                        
                                         <div class="task-content mb-3">{{ appointment.purpose }}</div>
                                         <p class="font-w-500 tx-s-12"><i class="icon-calendar"></i> <span class="task-date">{{ appointment.appointment_date }}</span></p>
-                                        <div class="d-flex">
-                                            <div class="my-auto line-h-1 h5">
-                                                <button class="text-primary edit-task" data-toggle="modal" data-target="#edittask" data-appointment-id="{{ appointment.id }}"><i class="icon-pencil"></i></button>
-                                                <button class="text-danger delete-task" data-appointment-id="{{ appointment.id }}"><i class="icon-trash"></i></button>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <button class="btn btn-info change-status" data-appointment-id="{{ appointment.id }}" data-new-status="completed"><i class="fas fa-check-circle"></i> Mark as Completed</button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-danger delete-task" data-appointment-id="{{ appointment.id }}"><i class="icon-trash"></i> Delete</button>
                                             </div>
                                         </div>
                                     </div>
@@ -107,9 +108,6 @@
                             </div>
                             {% endfor %}
                         </div>
-                        <!-- <a href="#" class="bg-primary w-100 d-block text-center py-2 px-2 mt-3 rounded text-white add-task" data-toggle="modal" data-target="#addtask">
-                            <i class="icon-plus align-middle text-white"></i> <span>Add Appointment</span>
-                        </a> -->
                     </div>
                 </div>
             </div>
@@ -134,7 +132,7 @@
                         <div class="task-list">
                             <!-- Appointments in Completed -->
                             {% for appointment in completed_appointments %}
-                            <div class="card my-2 task-card">
+                            <div class="card my-2 task-card overflow-auto">
                                 <div class="card-content">
                                     <div class="card-body p-4 body-color">
                                         <h6 class="mb-3 font-w-600">Patient: {{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</h6>
@@ -142,9 +140,11 @@
                                         <div class="task-content mb-3">{{ appointment.purpose }}</div>
                                         <p class="font-w-500 tx-s-12"><i class="icon-calendar"></i> <span class="task-date">{{ appointment.appointment_date }}</span></p>
                                         <div class="d-flex">
-                                            <div class="my-auto line-h-1 h5">
-                                                <button class="text-primary edit-task" data-toggle="modal" data-target="#edittask" data-appointment-id="{{ appointment.id }}"><i class="icon-pencil"></i></button>
-                                                <button class="text-danger delete-task" data-appointment-id="{{ appointment.id }}"><i class="icon-trash"></i></button>
+                                            <div>
+                                                <!-- No action button for completed appointments -->
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-danger delete-task" data-appointment-id="{{ appointment.id }}"><i class="icon-trash"></i> Delete</button>
                                             </div>
                                         </div>
                                     </div>
@@ -152,9 +152,6 @@
                             </div>
                             {% endfor %}
                         </div>
-                        <!-- <a href="#" class="bg-primary w-100 d-block text-center py-2 px-2 mt-3 rounded text-white add-task" data-toggle="modal" data-target="#addtask">
-                            <i class="icon-plus align-middle text-white"></i> <span>Add Appointment</span>
-                        </a> -->
                     </div>
                 </div>
             </div>
@@ -165,5 +162,35 @@
 <!-- END: Content-->
 </body>
 </html>
+
+<script>
+    $(document).ready(function(){
+        $(".change-status").click(function(){
+            var appointmentId = $(this).data("appointment-id");
+            var newStatus = $(this).data("new-status");
+            $.ajax({
+                type: "POST",
+                url: "{% url 'change_appointment_status' appointment_id=0 new_status='status_placeholder' %}".replace('0', appointmentId).replace('status_placeholder', newStatus),
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(data){
+                    // Handle success, maybe refresh the page or update the UI
+                    location.reload();
+                },
+                error: function(xhr, textStatus, errorThrown){
+                    // Handle error
+                    console.log("Error:", errorThrown);
+                }
+            });
+        });
+    });
+</script>
+<style>
+    .task-list-item {
+        overflow-y: auto;
+        max-height: 500px; /* Adjust the max height as needed */
+    }
+</style>
 
 {% endblock %}

@@ -9,12 +9,16 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 
 from records.models import FileNumber
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 # Create your views here.
 @login_required
 def add_patient(request):
     if request.method == "POST":
         form = AddPatientForm(request.POST)
+        print("form: ", form)
         if form.is_valid():
             user_data = form.cleaned_data
             User = get_user_model()
@@ -79,7 +83,16 @@ def add_appointment(request):
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
         if form.is_valid():
-            form.save()
+            appointment = form.save()
+            
+            # Sending email to patient
+            patient_email = appointment.patient.user.email
+            sender_email = 'noreply@nelsoneltech.co.ke'  
+            subject = 'Appointment Confirmation'
+            html_message = render_to_string('appointment/appointment_confirmation.html', {'appointment': appointment})
+            plain_message = strip_tags(html_message)
+            send_mail(subject, plain_message, sender_email, [patient_email], html_message=html_message, fail_silently=False)
+            
             return redirect('appointments') 
     else:
         form = AppointmentForm()

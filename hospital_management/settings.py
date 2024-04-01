@@ -10,8 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import environ
+import os
 from pathlib import Path
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -220,3 +226,15 @@ JAZZMIN_UI_TWEAKS = {
         "success": "btn-success"
     }
 }
+
+# Email Configurations
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_USE_SSL = True
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_TIMEOUT = 10
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+

@@ -63,17 +63,21 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="inputIDNumber">ID Number</label>
-                                                <input type="text" class="form-control rounded" id="inputIDNumber" placeholder="ID Number" name="id_number">
+                                                <label for="inputIDNumber">ID Number (8 digits)</label>
+                                                <input type="text" class="form-control rounded" id="inputIDNumber" placeholder="ID Number" name="id_number" maxlength="8" pattern="[0-9]{8}" required>
+                                                <div class="invalid-feedback">ID Number must be exactly 8 digits long and contain only numeric characters.</div>
                                             </div>
+                                            
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-row">
+                                        <div class="form-group col-md-6">
                                             <label for="inputAddress">Address</label>
                                             <input type="text" class="form-control rounded" id="inputAddress" placeholder="1234 Main St" name="address">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group col-md-6">
                                             <label for="inputPhone">Phone Number</label>
                                             <input type="text" class="form-control rounded" id="inputPhone" placeholder="Phone Number" name="phone_number">
+                                        </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">

@@ -25,4 +25,3 @@ class Schedule(models.Model):
     doctor = models.CharField(max_length=100)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    # Add other fields as needed

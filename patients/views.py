@@ -18,12 +18,10 @@ from django.utils.html import strip_tags
 def add_patient(request):
     if request.method == "POST":
         form = AddPatientForm(request.POST)
-        print("form: ", form)
         if form.is_valid():
             user_data = form.cleaned_data
             User = get_user_model()
             existing_user = User.objects.filter(email=user_data['email']).first()
-
             if existing_user:
                 error_message = f"User with email '{user_data['email']}' already exists."
                 messages.error(request, error_message)
@@ -37,35 +35,28 @@ def add_patient(request):
                 user.set_password(user_data['id_number'])
                 user.save()
 
-                try:
-                    patient_data = {
-                        'user': user,
-                        'id_number': user_data['id_number'],
-                        'medical_record_number': user_data['medical_record_number'],
-                        'date_of_birth': user_data['date_of_birth'],
-                        'gender': user_data['gender'],
-                        'address': user_data['address'],
-                        'phone_number': user_data['phone_number'],
-                        'insurance_provider': user_data['insurance_provider'],
-                    }
-                    patient = Patient.objects.create(**patient_data)
-                    file_number = FileNumber.objects.create(patient=patient, number=user_data['id_number'])
+                patient = Patient.objects.create(
+                    user=user,
+                    first_name=user_data['first_name'],
+                    last_name=user_data['last_name'],
+                    id_number=user_data['id_number'],
+                    medical_record_number=user_data['medical_record_number'],
+                    date_of_birth=user_data['date_of_birth'],
+                    gender=user_data['gender'],
+                    address=user_data['address'],
+                    phone_number=user_data['phone_number'],
+                    insurance_provider=user_data['insurance_provider'],
+                )
+                file_number = FileNumber.objects.create(patient=patient, number=user_data['id_number'])
 
-                    messages.success(request, 'Patient added successfully')
-                    return redirect('patients')
-                except Exception as e:
-                    error_message = f"Error occurred while saving patient: {e}"
-                    print(error_message)
-                    messages.error(request, error_message)
+                messages.success(request, 'Patient added successfully')
+                return redirect('patients')
         else:
             error_message = "Form is not valid."
-            print(form.errors)
             messages.error(request, error_message)
     else:
         form = AddPatientForm()
     return render(request, 'patients/add_patient.html', {'form': form})
-
-
 
 
 @login_required

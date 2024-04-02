@@ -2,8 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from doctors.models import Patient
-from records.form import MedicalRecordForm
-from records.models import FileNumber, MedicalRecord
+from records.form import DiagnosisForm, MedicalRecordForm
+from records.models import Diagnosis, FileNumber, MedicalRecord
 
 # Create your views here.
 @login_required
@@ -99,3 +99,41 @@ def delete_medical_record(request, medical_record_id):
     file_number_id = medical_record.file_number.id
     medical_record.delete()
     return redirect('view_file', file_number_id=file_number_id)
+
+# diagnosis
+@login_required
+def view_diagnosis(request,):
+    diagnosis = Diagnosis.objects.all()
+    context = {
+        'diagnosis': diagnosis,
+    }
+    return render(request, 'diagnosis/view_diagnosis.html', context)
+
+@login_required
+def add_diagnosis(request):
+    if request.method == 'POST':
+        form = DiagnosisForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('view_diagnosis', diagnosis_id=form.instance.id)
+    else:
+        form = DiagnosisForm()
+    return render(request, 'diagnosis/add_diagnosis.html', {'form': form})
+
+@login_required
+def edit_diagnosis(request, diagnosis_id):
+    diagnosis = get_object_or_404(Diagnosis, id=diagnosis_id)
+    if request.method == 'POST':
+        form = DiagnosisForm(request.POST, instance=diagnosis)
+        if form.is_valid():
+            form.save()
+            return redirect('view_diagnosis', diagnosis_id=diagnosis.id)
+    else:
+        form = DiagnosisForm(instance=diagnosis)
+    return render(request, 'diagnosis/edit_diagnosis.html', {'form': form})
+
+@login_required
+def delete_diagnosis(request, diagnosis_id):
+    diagnosis = get_object_or_404(Diagnosis, id=diagnosis_id)
+    diagnosis.delete()
+    return redirect('list_diagnosis')

@@ -18,13 +18,14 @@ from django.urls import path, include
 from patients.views import add_appointment, change_appointment_status, view_appointment, add_patient, view_patients
 
 from doctors import views
-from records.views import add_medical_record, delete_medical_record, edit_medical_record, records, view_all_files, view_file, view_patient_file, view_record
+from records.views import add_diagnosis, add_medical_record, delete_diagnosis, delete_medical_record, edit_diagnosis, edit_medical_record, records, view_all_files, view_diagnosis, view_file, view_patient_file, view_record
 
 urlpatterns = [
     path('register/', views.register, name='register'),
     path('accounts/login/', views.login, name='login'),
     path('admin/', admin.site.urls), 
-    path('', views.doctor_dashboard, name='doctor_dashboard'),
+    path('', views.index, name='index'),
+    path('doctor_dashboard', views.doctor_dashboard, name='doctor_dashboard'),
 
     # Dashboard
     path('doctor_dashboard', views.doctor_dashboard, name='doctor_dashboard'),
@@ -60,7 +61,10 @@ urlpatterns = [
     path('appointments/', view_appointment, name='appointments'),
     path('appointments/<int:appointment_id>/<str:new_status>/', change_appointment_status, name='change_appointment_status'),
 
-
-
+    # diagnosis
+    path('diagnosis', view_diagnosis, name='view_diagnosis'),
+    path('diagnosis/add/', add_diagnosis, name='add_diagnosis'),
+    path('diagnosis/<int:diagnosis_id>/edit/', edit_diagnosis, name='edit_diagnosis'),
+    path('diagnosis/<int:diagnosis_id>/delete/', delete_diagnosis, name='delete_diagnosis'),
 
 ]

@@ -20,6 +20,7 @@ class Appointment(models.Model):
     doctor = models.CharField(max_length=100)
     purpose = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=PENDING)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 
 class Schedule(models.Model):
     doctor = models.CharField(max_length=100)

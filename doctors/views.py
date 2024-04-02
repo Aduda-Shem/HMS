@@ -11,6 +11,10 @@ from records.models import Allergy, Diagnosis, FileNumber, MedicalRecord, Medica
 from .forms import AddDoctorForm, AddHealthcareProfessionalForm, AddNurseForm, LoginForm
 from django.utils.translation import gettext_lazy as _
 
+
+def index(request):
+    return render(request, 'index.html')
+
 def register(request):
     if request.method == "POST":
         email = request.POST.get('email')

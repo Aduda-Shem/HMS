@@ -69,7 +69,7 @@
                                 <a href="#" class="dropdown-item px-2 align-self-center d-flex">
                                     <i class="fas fa-user mr-2 text-xl"></i> Profile</a>
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item px-2 text-danger align-self-center d-flex">
+                                <a href="{% url 'logout' %}" class="dropdown-item px-2 text-danger align-self-center d-flex">
                                     <i class="fas fa-sign-out-alt mr-2 text-xl"></i> Sign Out</a>
                             </div>
                         </li>
@@ -107,6 +107,7 @@
                     <a href="{% url 'list_doctors' %}"><i class="fas fa-user-md mr-1 text-xl"></i> Doctors</a>
                     <ul>
                         <li><a href="{% url 'list_doctors' %}"><i class="fas fa-user text-xl"></i> All Doctors</a></li>
+                        <li><a href="{% url 'view_schedules' %}"><i class="fas fa-calendar-alt"></i> My Schedule</a></li>
                         {% if user.healthcareprofessional.user == 'admin' %}
                             <li><a href="{% url 'add_doctor' %}"><i class="fas fa-plus text-xl"></i> Add Doctor</a></li>
                         {% endif %}

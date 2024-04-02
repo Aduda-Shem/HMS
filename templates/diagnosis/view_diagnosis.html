@@ -1,94 +1,175 @@
-{% extends 'base.html'%}
-{% block content%}
+{% extends 'base.html' %}
 {% load static %}
-        <!-- START: Main Content-->
-        <main>
-            <div class="container-fluid site-width">
-                <!-- START: Breadcrumbs-->
-                <div class="row ">
-                    <div class="col-12  align-self-center">
-                        <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                            <div class="w-sm-100 mr-auto"><h4 class="mb-0">Diagnoses</h4></div>
 
-                            <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
-                                <li class="breadcrumb-item"><a href="">Home</a></li>
-                                <li class="breadcrumb-item">Diagnosis</li>
-                                <li class="breadcrumb-item active">List</li>
-                            </ol>
+{% block content %}
+<main>
+    <div class="container-fluid site-width">
+        <!-- START: Breadcrumbs -->
+        <div class="row">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Diagnoses</h4></div>
+
+                    <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
+                        <li class="breadcrumb-item"><a href="">Home</a></li>
+                        <li class="breadcrumb-item">Diagnosis</li>
+                        <li class="breadcrumb-item active">List</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- END: Breadcrumbs -->
+
+        <!-- START: Card Data -->
+        <div class="row">
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="card-header justify-content-between align-items-center">                               
+                        <h4 class="card-title">Diagnoses</h4> 
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiagnosisModal">Add Diagnosis</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example" class="display table dataTable table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for data in diagnosis %}
+                                    <tr>
+                                        <td>{{ data.name }}</td>
+                                        <td>{{ data.description }}</td>
+                                        <td>
+                                            <a href="{% url 'edit_diagnosis' diagnosis_id=data.id %}" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editDiagnosisModal{{ data.id }}">Edit</a>
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteDiagnosisModal{{ data.id }}">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <!-- Edit Diagnosis Modal -->
+                                    <div class="modal fade" id="editDiagnosisModal{{ data.id }}" tabindex="-1" role="dialog" aria-labelledby="editDiagnosisModalLabel{{ data.id }}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editDiagnosisModalLabel{{ data.id }}">Edit Diagnosis</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form method="post" action="{% url 'edit_diagnosis' diagnosis_id=data.id %}">
+                                                        {% csrf_token %}
+                                                        <div class="form-group">
+                                                            <label for="inputName">Name</label>
+                                                            <input type="text" class="form-control" id="inputName" placeholder="Name" name="name" value="{{ data.name }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputDescription">Description</label>
+                                                            <textarea class="form-control" id="inputDescription" rows="3" name="description">{{ data.description }}</textarea>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary">Update Diagnosis</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Delete Diagnosis Modal -->
+                                    <div class="modal fade" id="deleteDiagnosisModal{{ data.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteDiagnosisModalLabel{{ data.id }}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteDiagnosisModalLabel{{ data.id }}">Delete Diagnosis</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete "{{ data.name }}" diagnosis?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                    <a href="{% url 'delete_diagnosis' diagnosis_id=data.id %}" class="btn btn-danger">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
-                </div>
-                <!-- END: Breadcrumbs-->
+                </div> 
+            </div>                  
+        </div>
+        <!-- END: Card DATA -->
+    </div>
+</main>
 
-                <!-- START: Card Data-->
-                <div class="row">
-                    <div class="col-12 mt-3">
-                        <div class="card">
-                            <div class="card-header justify-content-between align-items-center">                               
-                                <h4 class="card-title">Diagnoses</h4> 
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="example" class="display table dataTable table-striped table-bordered" >
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Description</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for data in diagnosis %}
-                                            <tr>
-                                                <td>{{ data.name }}</td>
-                                                <td>{{ data.description }}</td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Description</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div> 
-                    </div>                  
-                </div>
-                <!-- END: Card DATA-->
+<!-- Add Diagnosis Modal -->
+<div class="modal fade" id="addDiagnosisModal" tabindex="-1" role="dialog" aria-labelledby="addDiagnosisModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addDiagnosisModalLabel">Add Diagnosis</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </main>
-        <!-- END: Content-->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-          $(document).ready(function() {
-            $("#searchInput").on("keyup", function() {
-              var value = $(this).val().toLowerCase();
-              $("table tbody tr").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-              });
-            });
-          });
-        </script>
+            <div class="modal-body">
+                <form method="post" action="{% url 'add_diagnosis' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="inputName">Name</label>
+                        <input type="text" class="form-control" id="inputName" placeholder="Name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDescription">Description</label>
+                        <textarea class="form-control" id="inputDescription" rows="3" name="description"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Diagnosis</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- END: Content-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#searchInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("table tbody tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
+  });
+</script>
 
-        <!-- START: Page Vendor JS-->
-        <script src="{% static '/vendors/datatable/js/jquery.dataTables.min.js' %}"></script> 
-        <script src="{% static '/vendors/datatable/js/dataTables.bootstrap4.min.js' %}"></script>
-        <script src="{% static '/vendors/datatable/jszip/jszip.min.js' %}"></script>
-        <script src="{% static '/vendors/datatable/pdfmake/pdfmake.min.js' %}"></script>
-        <script src="{% static '/vendors/datatable/pdfmake/vfs_fonts.js' %}"></script>
-        <script src="{% static '/vendors/datatable/buttons/js/dataTables.buttons.min.js' %}"></script>
-        <script src="{% static '/vendors/datatable/buttons/js/buttons.bootstrap4.min.js' %}"></script>
-        <script src="{% static '/vendors/datatable/buttons/js/buttons.colVis.min.js' %}"></script>
-        <script src="{% static '/vendors/datatable/buttons/js/buttons.flash.min.js' %}"></script>
-        <script src="{% static '/vendors/datatable/buttons/js/buttons.html5.min.js' %}"></script>
-        <script src="{% static '/vendors/datatable/buttons/js/buttons.print.min.js' %}"></script>
-        <!-- END: Page Vendor JS-->
+<!-- START: Page Vendor JS-->
+<script src="{% static '/vendors/datatable/js/jquery.dataTables.min.js' %}"></script> 
+<script src="{% static '/vendors/datatable/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/jszip/jszip.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/buttons.flash.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static '/vendors/datatable/buttons/js/buttons.print.min.js' %}"></script>
+<!-- END: Page Vendor JS-->
 <!-- START: Page Script JS-->        
 <script src="{% static '/js/datatable.script.js' %}"></script>
 <!-- END: Page Script JS-->
 
-
-{%endblock%}
+{% endblock %}

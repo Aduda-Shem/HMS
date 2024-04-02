@@ -115,10 +115,10 @@ def add_diagnosis(request):
         form = DiagnosisForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('view_diagnosis', diagnosis_id=form.instance.id)
+            return redirect('view_diagnosis')
     else:
         form = DiagnosisForm()
-    return render(request, 'diagnosis/add_diagnosis.html', {'form': form})
+    return render(request, 'diagnosis/view_diagnosis.html', {'form': form})
 
 @login_required
 def edit_diagnosis(request, diagnosis_id):
@@ -127,13 +127,13 @@ def edit_diagnosis(request, diagnosis_id):
         form = DiagnosisForm(request.POST, instance=diagnosis)
         if form.is_valid():
             form.save()
-            return redirect('view_diagnosis', diagnosis_id=diagnosis.id)
+            return redirect('view_diagnosis')
     else:
         form = DiagnosisForm(instance=diagnosis)
-    return render(request, 'diagnosis/edit_diagnosis.html', {'form': form})
+    return render(request, 'diagnosis/view_diagnosis.html', {'form': form})
 
 @login_required
 def delete_diagnosis(request, diagnosis_id):
     diagnosis = get_object_or_404(Diagnosis, id=diagnosis_id)
     diagnosis.delete()
-    return redirect('list_diagnosis')
+    return redirect('view_diagnosis')

@@ -582,10 +582,10 @@ $(function () {
             enabled: false
         },
         series: [{
-                data: [400, 430, 448, 470]
+                data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
             }],
         xaxis: {
-            categories: ['Company', 'Security', 'Vehicles', 'Visitors'],
+            categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'],
         }
     }
 

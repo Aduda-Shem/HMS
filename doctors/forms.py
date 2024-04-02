@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
-from doctors.models import HealthcareProfessional, Patient
-from patients.models import Appointment
+from doctors.models import HealthcareProfessional, Patient, User
+from patients.models import Appointment, Schedule
 
 class CustomUserCreationForm(forms.Form):
     email = forms.EmailField(label='Email', max_length=100)
@@ -44,28 +44,49 @@ class AddPatientForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         # Example validation to ensure unique email
-        if Patient.objects.filter(email=email).exists():
+        if User.objects.filter(email=email).exists():
             raise forms.ValidationError("This email is already registered.")
         return email
     
 class AppointmentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AppointmentForm, self).__init__(*args, **kwargs)
+        
+        self.fields['patient'].queryset = Patient.objects.all()
+        self.fields['doctor'].queryset = HealthcareProfessional.objects.all()
+
     patient = forms.ModelChoiceField(
-        queryset=Patient.objects.all(),
+        queryset=None,  
         empty_label="Select a patient",
         widget=forms.Select(attrs={'class': 'form-control'})
     )
     doctor = forms.ModelChoiceField(
-        queryset=HealthcareProfessional.objects.all(),
+        queryset=None,  
         empty_label="Select a doctor",
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 
     class Meta:
         model = Appointment
-        fields = ['patient', 'doctor', 'appointment_date', 'purpose', 'status']
+        fields = ['patient', 'doctor', 'appointment_date', 'purpose', 'status', "price"]
 
         widgets = {
             'appointment_date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
             'purpose': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
             'status': forms.Select(attrs={'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+        }
+
+
+
+class ScheduleForm(forms.ModelForm):
+    class Meta:
+        model = Schedule
+        fields = ['title', 'date', 'start_time', 'end_time', 'data']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter title'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'start_time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
+            'end_time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
+            'data': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Enter data'}),
         }

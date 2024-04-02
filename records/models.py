@@ -1,6 +1,7 @@
 from django.db import models
 from patients.models import Patient
 from doctors.models import HealthcareProfessional
+from django.utils.translation import gettext_lazy as _
 
 class FileNumber(models.Model):
     patient = models.OneToOneField(
@@ -33,20 +34,9 @@ class MedicalRecord(models.Model):
     weight = models.CharField(max_length=20, blank=True, null=True)
     height = models.CharField(max_length=20, blank=True, null=True)
     lab_results = models.TextField(blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     total_charges = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    allergies = models.TextField(blank=True)
+    allergies = models.CharField(max_length=20, blank=True, null=True)
     medications = models.TextField(blank=True)
-    admission_charges = models.TextField(blank=True)
-    treatment_charges = models.TextField(blank=True)
-    medication_charges = models.TextField(blank=True)
-
-    def calculate_total_charges(self):
-        admission_charges_total = sum(float(charge.amount) for charge in self.admission_charges.all())
-        treatment_charges_total = sum(float(charge.amount) for charge in self.treatment_charges.all())
-        medication_charges_total = sum(float(charge.amount) for charge in self.medication_charges.all())
-        self.total_charges = admission_charges_total + treatment_charges_total + medication_charges_total
-        self.save()
 
     def __str__(self):
         return f"Medical Record for Patient {self.file_number.patient.first_name} {self.file_number.patient.last_name}"
@@ -103,3 +93,24 @@ class TreatmentCharge(models.Model):
 
     def __str__(self):
         return f"Treatment Charge: {self.description}"
+
+
+class Invoice(models.Model):
+    reference = models.CharField(max_length=50)
+    appointment_fee = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Appointment Fee'))
+    admission_fee = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Admission Fee'))
+    other_fees = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Other Fees'))
+    pending = models.BooleanField(default=False)
+
+    def total_amount(self):
+        """
+        Calculate the total amount by summing up all fees.
+        """
+        return self.appointment_fee + self.admission_fee + self.other_fees
+
+    def __str__(self):
+        return f"Invoice - ID: {self.id}, Total Amount: {self.total_amount()}"
+
+    class Meta:
+        verbose_name = _('Invoice')
+        verbose_name_plural = _('Invoices')

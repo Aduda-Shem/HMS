@@ -10,7 +10,7 @@ from patients.models import Appointment, Schedule
 from records.models import Allergy, Diagnosis, FileNumber, MedicalRecord, Medication, Symptom
 from .forms import AddDoctorForm, AddHealthcareProfessionalForm, AddNurseForm, LoginForm
 from django.utils.translation import gettext_lazy as _
-
+from django.db.models import Count
 
 def index(request):
     return render(request, 'index.html')
@@ -69,28 +69,19 @@ def user_logout(request):
 @login_required
 def doctor_dashboard(request):
     user = request.user
-    appointments = Appointment.objects.filter(doctor=user.username)
-    schedules = Schedule.objects.filter(doctor=user.username)
+    appointments = Appointment.objects.all()[:5]
     patients_count = FileNumber.objects.count()
     diagnoses_count = Diagnosis.objects.count()
     medical_records_count = MedicalRecord.objects.count()
     symptoms_count = Symptom.objects.count()
     allergies_count = Allergy.objects.count()
     medications_count = Medication.objects.count()
-    conditions_data = [
-        ('COVID-19', 1234, 876),
-        ('Heart Disease', 543, 432),
-        ('Cancer', 765, 567),
-        ('Diabetes', 321, 210),
-        ('Stroke', 198, 155),
-        ('Respiratory Disorders', 432, 345),
-        ('Hypertension', 876, 654),
-        ('Other', 432, 310),
-    ]
+    # Fetch conditions data
+    conditions_data = Diagnosis.objects.annotate(num_medical_records=Count('medical_records'))[:5]
+
 
     context = {
         'appointments': appointments,
-        'schedules': schedules,
         'patients_count': patients_count,
         'diagnoses_count': diagnoses_count,
         'medical_records_count': medical_records_count,

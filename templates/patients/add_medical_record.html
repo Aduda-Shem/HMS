@@ -34,12 +34,12 @@
                                     {{ form.doctor }}
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="id_diagnosis">Diagnosis:</label>
-                                    {{ form.diagnosis }}
+                                    <label for="id_weight">Weight:</label>
+                                    {{ form.weight }}
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="id_prescription">Prescription:</label>
-                                    {{ form.prescription }}
+                                    <label for="id_height">Height:</label>
+                                    {{ form.height }}
                                 </div>
                             </div>
                             <div class="form-row">
@@ -58,49 +58,32 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-4">
-                                    <label for="id_weight">Weight:</label>
-                                    {{ form.weight }}
+                                    <label for="id_diagnosis">Allergies:</label>
+                                    {{ form.allergies }}
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="id_height">Height:</label>
-                                    {{ form.height }}
+                                    <label for="id_diagnosis">Diagnosis:</label>
+                                    {{ form.diagnosis }}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_diagnosis">Medication Charges:</label>
+                                    {{ form.total_charges }}
                                 </div>
                             </div>
                           
                             <div class="form-row">
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-4">
                                     <label for="id_lab_results">Lab Results:</label>
                                     {{ form.lab_results }}
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="id_allergies">Allergies:</label>
-                                    {{ form.allergies }}
+                                <div class="form-group col-md-4">
+                                    <label for="id_prescription">Prescription:</label>
+                                    {{ form.prescription }}
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="id_medications">Medications:</label>
+                          
+                                <div class="form-group col-md-14">
+                                    <label for="id_medication_charges">Medication:</label>
                                     {{ form.medications }}
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="id_admission_charges">Admission Charges:</label>
-                                    {{ form.admission_charges }}
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="id_treatment_charges">Treatment Charges:</label>
-                                    {{ form.treatment_charges }}
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="id_medication_charges">Medication Charges:</label>
-                                    {{ form.medication_charges }}
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>

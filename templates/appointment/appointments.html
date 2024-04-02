@@ -53,11 +53,11 @@
                                         <p class="font-w-500 tx-s-12"><i class="icon-calendar"></i> <span class="task-date">{{ appointment.appointment_date }}</span></p>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
-                                                <button class="btn btn-success change-status" data-appointment-id="{{ appointment.id }}" data-new-status="in_progress"><i class="fas fa-play"></i> Start Appointment</button>
+                                                <a href="{% url 'change_appointment_status' appointment_id=appointment.id new_status='in_progress' %}" class="btn btn-success"><i class="fas fa-play"></i> Start Appointment</a>
                                             </div>
-                                            <div>
+                                            <!-- <div>
                                                 <button class="btn btn-danger delete-task" data-appointment-id="{{ appointment.id }}"><i class="icon-trash"></i> Delete</button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -70,7 +70,7 @@
 
             <!-- In Progress -->
             <div class="col-12 col-md-4 mt-3 task-list-item">
-                <div class="card bg-primary-light" style="height: 1200px;">
+                <div class="card bg-primary-light" style="height: 1200px !important;">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="card-title">In Progress</h6>
                         <div class="dropdown">
@@ -95,13 +95,13 @@
                                         <h6 class="mb-3 font-w-600">Doctor: {{ appointment.doctor }}</h6>                                        
                                         <div class="task-content mb-3">{{ appointment.purpose }}</div>
                                         <p class="font-w-500 tx-s-12"><i class="icon-calendar"></i> <span class="task-date">{{ appointment.appointment_date }}</span></p>
-                                        <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex justify-content-between align-items-left">
                                             <div>
-                                                <button class="btn btn-info change-status" data-appointment-id="{{ appointment.id }}" data-new-status="completed"><i class="fas fa-check-circle"></i> Mark as Completed</button>
+                                                <a href="{% url 'change_appointment_status' appointment_id=appointment.id new_status='completed' %}" class="btn btn-success"><i class="fas fa-check-circle"></i> Mark as Completed</a>
                                             </div>
-                                            <div>
+                                            <!-- <div>
                                                 <button class="btn btn-danger delete-task" data-appointment-id="{{ appointment.id }}"><i class="icon-trash"></i> Delete</button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -143,9 +143,9 @@
                                             <div>
                                                 <!-- No action button for completed appointments -->
                                             </div>
-                                            <div>
+                                            <!-- <div>
                                                 <button class="btn btn-danger delete-task" data-appointment-id="{{ appointment.id }}"><i class="icon-trash"></i> Delete</button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -163,29 +163,6 @@
 </body>
 </html>
 
-<script>
-    $(document).ready(function(){
-        $(".change-status").click(function(){
-            var appointmentId = $(this).data("appointment-id");
-            var newStatus = $(this).data("new-status");
-            $.ajax({
-                type: "POST",
-                url: "{% url 'change_appointment_status' appointment_id=0 new_status='status_placeholder' %}".replace('0', appointmentId).replace('status_placeholder', newStatus),
-                data: {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function(data){
-                    // Handle success, maybe refresh the page or update the UI
-                    location.reload();
-                },
-                error: function(xhr, textStatus, errorThrown){
-                    // Handle error
-                    console.log("Error:", errorThrown);
-                }
-            });
-        });
-    });
-</script>
 <style>
     .task-list-item {
         overflow-y: auto;

@@ -48,12 +48,10 @@
                             <th>Patient Name</th>
                             <th>Doctor</th>
                             <th>Diagnosis</th>
-                            <th>Prescription</th>
                             <th>Admission Date</th>
                             <th>Blood Pressure</th>
                             <th>Heart Rate</th>
                             <th>Temperature</th>
-                            <th>Lab Results</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -64,12 +62,10 @@
                             <td>{{ record.file_number.patient }}</td>
                             <td>{{ record.doctor.user.first_name }} {{ record.doctor.user.last_name }}</td>
                             <td>{{ record.diagnosis.name }}</td>
-                            <td>{{ record.prescription }}</td>
                             <td>{{ record.date_created }}</td>
                             <td>{{ record.blood_pressure }}</td>
                             <td>{{ record.heart_rate }}</td>
                             <td>{{ record.temperature }}</td>
-                            <td>{{ record.lab_results }}</td>
                             <td>
                                 <a href="{% url 'view_record' record.id %}" class="btn btn-primary btn-sm">View</a>
                             </td>

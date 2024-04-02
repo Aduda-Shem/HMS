@@ -67,11 +67,11 @@
     $(".invoice-info").on("click", function () {
         $('.inv-no').html($(this).closest('.invoice').find('.invoice-no').html());
 
-        $('.view').fadeIn(1000);
+        $('.view-invoice').fadeIn(1000);
     });
     $(".back-to-invoice").on("click", function () {
 
-        $('.view').fadeOut();
+        $('.view-invoice').fadeOut();
     });
 
 })(jQuery);

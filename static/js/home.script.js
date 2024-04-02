@@ -600,7 +600,7 @@
                     {latLng: [50.95, 6.96], name: 'Cologne'},
                     {latLng: [50.11, 8.68], name: 'Frankfurt am Main'},
                     {latLng: [48.77, 9.17], name: 'Stuttgart'},
-                    {latLng: [51.23, 6.78], name: 'Dï¿½sseldorf'},
+                    {latLng: [51.23, 6.78], name: 'Düsseldorf'},
                     {latLng: [51.51, 7.46], name: 'Dortmund'},
                     {latLng: [51.45, 7.01], name: 'Essen'},
                     {latLng: [53.07, 8.80], name: 'Bremen'}
@@ -1760,12 +1760,12 @@
             dataLabels: {
                 enabled: false
             },
-            colors: ['#415768'],
+            colors: ['#1e3d73'],
             series: [{
-                    data: [400, 430, 448, 470]
+                    data: [400, 430, 448, 470, 540, 580]
                 }],
             xaxis: {
-                categories: ['Company', 'Security', 'Vehicles', 'Visitors'],
+                categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France']
 
             }
         }

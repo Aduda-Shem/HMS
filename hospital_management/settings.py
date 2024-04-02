@@ -228,9 +228,9 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 # Email Configurations
-EMAIL_HOST=""
-EMAIL_HOST_USER=""
-EMAIL_HOST_PASSWORD=""
+EMAIL_HOST="mail.nelsoneltech.co.ke"
+EMAIL_HOST_USER="noreply@nelsoneltech.co.ke"
+EMAIL_HOST_PASSWORD="Nelsonel@2024!"
 EMAIL_USE_SSL = True
 EMAIL_PORT="465"
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'

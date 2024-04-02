@@ -46,7 +46,7 @@ class HealthcareProfessional(models.Model):
 
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='patient')
-    email = models.EmailField(_('Email address'), unique=True)
+    email = models.EmailField(_('Email address'))
     first_name = models.CharField(_('First name'), max_length=50)
     last_name = models.CharField(_('Last name'), max_length=50)
     phone_number = models.CharField(_('Phone Number'), max_length=50)

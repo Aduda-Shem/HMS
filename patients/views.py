@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-from doctors.forms import AddPatientForm, AppointmentForm
+from doctors.forms import AddPatientForm, AppointmentForm, ScheduleForm
 from doctors.models import Patient
 from patients.forms import FileNumberForm
 
-from patients.models import Appointment
+from patients.models import Appointment, Schedule
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 
@@ -15,6 +15,7 @@ from django.utils.html import strip_tags
 
 # Create your views here.
 @login_required
+
 def add_patient(request):
     if request.method == "POST":
         form = AddPatientForm(request.POST)
@@ -50,14 +51,13 @@ def add_patient(request):
                 file_number = FileNumber.objects.create(patient=patient, number=user_data['id_number'])
 
                 messages.success(request, 'Patient added successfully')
-                return redirect('patients')
+                return redirect('list_patients')
         else:
             error_message = "Form is not valid."
             messages.error(request, error_message)
     else:
         form = AddPatientForm()
     return render(request, 'patients/add_patient.html', {'form': form})
-
 
 @login_required
 def view_patients(request):
@@ -109,11 +109,57 @@ def view_appointment(request):
 def change_appointment_status(request, appointment_id, new_status):
     appointment = get_object_or_404(Appointment, id=appointment_id)
 
-    if new_status in [Appointment.IN_PROGRESS, Appointment.COMPLETED]:
+    if new_status == Appointment.COMPLETED:
         appointment.status = new_status
+        appointment.is_billed = True 
+        appointment.save()
+    elif new_status == Appointment.IN_PROGRESS:
+        appointment.status = new_status
+        appointment.is_billed = False 
         appointment.save()
     else:
         pass
 
-    return redirect('view_appointment')
+    return redirect('appointments')
 
+# schedule CRUD
+
+@login_required
+def view_schedule(request):
+    schedules = Schedule.objects.all()
+    print("view_schedules", schedules)
+    context = {
+        'schedules': schedules,
+    }
+    return render(request, 'schedule/schedule.html', context)
+
+@login_required
+def add_schedule(request):
+    if request.method == 'POST':
+        form = ScheduleForm(request.POST)
+        if form.is_valid():
+            schedule = form.save(commit=False)
+            schedule.healthcare_professional = request.user.healthcareprofessional
+            schedule.save()
+            return redirect('view_schedules')
+    else:
+        form = ScheduleForm()
+    return render(request, 'schedule/schedule.html', {'form': form})
+
+@login_required
+def edit_schedule(request, schedule_id):
+    schedule = get_object_or_404(Schedule, id=schedule_id)
+    if request.method == 'POST':
+        form = ScheduleForm(request.POST, instance=schedule)
+        if form.is_valid():
+            form.save()
+            return redirect('view_schedules')
+    else:
+        form = ScheduleForm(instance=schedule)
+    return render(request, 'schedule/edit_schedule.html', {'form': form})
+
+@login_required
+def delete_schedule(request, schedule_id):
+    schedule = get_object_or_404(Schedule, id=schedule_id)
+    schedule.delete()
+    return redirect('view_schedules')

@@ -5,7 +5,7 @@ from records.models import AdmissionCharge, Allergy, Diagnosis, MedicalRecord, M
 class MedicalRecordForm(forms.ModelForm):
     class Meta:
         model = MedicalRecord
-        fields = ['doctor', 'diagnosis', 'prescription', 'blood_pressure', 'heart_rate', 'temperature', 'weight', 'height', 'lab_results']
+        fields = ['doctor', 'diagnosis', 'prescription', 'blood_pressure', 'heart_rate', 'temperature', 'weight', 'height', 'lab_results', 'total_charges', 'allergies', 'medications']
         widgets = {
             'doctor': forms.Select(attrs={'class': 'form-control'}),
             'diagnosis': forms.Select(attrs={'class': 'form-control'}),
@@ -16,6 +16,9 @@ class MedicalRecordForm(forms.ModelForm):
             'weight': forms.TextInput(attrs={'class': 'form-control'}),
             'height': forms.TextInput(attrs={'class': 'form-control'}),
             'lab_results': forms.Textarea(attrs={'class': 'form-control'}),
+            'total_charges': forms.NumberInput(attrs={'class': 'form-control'}),
+            'allergies': forms.TextInput(attrs={'class': 'form-control'}),
+            'medications': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
 class DiagnosisForm(forms.ModelForm):

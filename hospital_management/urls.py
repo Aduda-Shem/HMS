@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from patients.views import add_appointment, change_appointment_status, view_appointment, add_patient, view_patients
+from patients.views import add_appointment, add_schedule, change_appointment_status, delete_schedule, edit_schedule, view_appointment, add_patient, view_patients, view_schedule
 
 from doctors import views
 from records.views import add_diagnosis, add_medical_record, delete_diagnosis, delete_medical_record, edit_diagnosis, edit_medical_record, records, view_all_files, view_diagnosis, view_file, view_patient_file, view_record
@@ -23,6 +23,7 @@ from records.views import add_diagnosis, add_medical_record, delete_diagnosis, d
 urlpatterns = [
     path('register/', views.register, name='register'),
     path('accounts/login/', views.login, name='login'),
+    path('accounts/logout/', views.user_logout, name='logout'),
     path('admin/', admin.site.urls), 
     path('', views.index, name='index'),
     path('doctor_dashboard', views.doctor_dashboard, name='doctor_dashboard'),
@@ -67,4 +68,9 @@ urlpatterns = [
     path('diagnosis/<int:diagnosis_id>/edit/', edit_diagnosis, name='edit_diagnosis'),
     path('diagnosis/<int:diagnosis_id>/delete/', delete_diagnosis, name='delete_diagnosis'),
 
+# schedule
+    path('schedule/', view_schedule, name='view_schedules'),
+    path('schedule/add/', add_schedule, name='add_schedule'),
+    path('schedule/<int:schedule_id>/edit/', edit_schedule, name='edit_schedule'),
+    path('schedule/<int:schedule_id>/delete/', delete_schedule, name='delete_schedule'),
 ]

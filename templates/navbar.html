@@ -135,7 +135,7 @@
                     </a>
                     <ul>
                         <li><a href="{% url 'view_diagnosis' %}"><i class="fas fa-list text-xl"></i> Diagnosis List</a></li>
-                        <li><a href="{% url 'add_diagnosis' %}"><i class="fas fa-plus-circle text-xl"></i> Add Diagnosis</a></li>
+                        <!-- <li><a href="{% url 'add_diagnosis' %}"><i class="fas fa-plus-circle text-xl"></i> Add Diagnosis</a></li> -->
                     </ul>
                 </li>
                 
@@ -143,7 +143,7 @@
                 <li class="dropdown"><a href="#"><i class="fas fa-calendar-check mr-1 text-xl"></i> Appointments</a>
                     <ul>
                         <li><a href="{% url 'appointments' %}"><i class="fas fa-calendar text-xl"></i> All Appointments</a></li>
-                        <!-- <li><a href="{% url 'add_appointment' %}"><i class="fas fa-calendar-plus text-xl"></i> Add Appointment</a></li> -->
+                        <li><a href="{% url 'add_appointment' %}"><i class="fas fa-calendar-plus text-xl"></i> Add Appointment</a></li>
                     </ul>
                 </li>
                 {% endif %}

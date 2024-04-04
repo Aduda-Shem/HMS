@@ -96,13 +96,16 @@ def doctor_dashboard(request):
 @login_required
 def nurse_dashboard(request):
     user = request.user
-    appointments = Appointment.objects.all()
+    appointments = Appointment.objects.all()[:5]
     patients_count = FileNumber.objects.count()
     diagnoses_count = Diagnosis.objects.count()
     medical_records_count = MedicalRecord.objects.count()
     symptoms_count = Symptom.objects.count()
     allergies_count = Allergy.objects.count()
     medications_count = Medication.objects.count()
+    # Fetch conditions data
+    conditions_data = Diagnosis.objects.annotate(num_medical_records=Count('medical_records'))[:5]
+
 
     context = {
         'appointments': appointments,
@@ -112,6 +115,7 @@ def nurse_dashboard(request):
         'symptoms_count': symptoms_count,
         'allergies_count': allergies_count,
         'medications_count': medications_count,
+        'conditions_data': conditions_data,
     }
 
     return render(request, 'nurse/nurse_dashboard.html', context)
@@ -208,7 +212,7 @@ def add_nurse(request):
             return redirect('nurse_dashboard')
     else:
         form = AddNurseForm()
-    return render(request, 'nurses/add_nurse.html', {'form': form})
+    return render(request, 'nurse/add_nurse.html', {'form': form})
 
 
 def add_healthcare_professional(request):

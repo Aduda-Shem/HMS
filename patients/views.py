@@ -126,12 +126,16 @@ def change_appointment_status(request, appointment_id, new_status):
 
 @login_required
 def view_schedule(request):
-    schedules = Schedule.objects.all()
+    healthcare_professional = request.user.healthcareprofessional
+    # Fetch schedules for the specific healthcare professional
+    schedules = Schedule.objects.filter(healthcare_professional=healthcare_professional)
     print("view_schedules", schedules)
+
     context = {
         'schedules': schedules,
     }
     return render(request, 'schedule/schedule.html', context)
+
 
 @login_required
 def add_schedule(request):

@@ -3,7 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from doctors.models import Patient
 from records.form import DiagnosisForm, MedicalRecordForm
-from records.models import Diagnosis, FileNumber, MedicalRecord
+from records.models import Diagnosis, FileNumber, Invoice, MedicalRecord, MedicationCharge, TreatmentCharge
+from django.http import HttpResponse, JsonResponse
+from django.db import transaction
 
 # Create your views here.
 @login_required
@@ -137,3 +139,66 @@ def delete_diagnosis(request, diagnosis_id):
     diagnosis = get_object_or_404(Diagnosis, id=diagnosis_id)
     diagnosis.delete()
     return redirect('view_diagnosis')
+
+@login_required
+def create_invoice_from_charges(request):
+    try:
+        # Retrieve all medication charges and treatment charges where billed is false
+        medication_charges = MedicationCharge.objects.filter(billed=False)
+        treatment_charges = TreatmentCharge.objects.filter(billed=False)
+
+        # Calculate the total amount for medication charges and treatment charges
+        total_medication_charges = sum(charge.amount for charge in medication_charges)
+        total_treatment_charges = sum(charge.amount for charge in treatment_charges)
+
+        # Calculate total amount for the invoice
+        total_amount = total_medication_charges + total_treatment_charges
+
+        # Create an invoice object with the calculated total amount
+        with transaction.atomic():
+            invoice = Invoice.objects.create(
+                appointment_fee=0,  # Update these fields based on your logic
+                admission_fee=0,    # Update these fields based on your logic
+                other_fees=total_amount,
+                total_amount=total_amount,
+                pending=True  # Update this field based on your logic
+            )
+
+            # Mark all medication charges as billed and associate them with the invoice
+            medication_charges.update(billed=True, invoice=invoice)
+
+            # Mark all treatment charges as billed and associate them with the invoice
+            treatment_charges.update(billed=True, invoice=invoice)
+
+        return HttpResponse("Invoice created successfully")
+    except Exception as e:
+        return HttpResponse("Error occurred while creating invoice: {}".format(e))
+
+
+def view_invoices(request, status=None):
+    try:
+        if status == 'paid':
+            invoices = Invoice.objects.filter(paid=True)
+        elif status == 'pending':
+            invoices = Invoice.objects.filter(pending=True)
+        else:
+            invoices = Invoice.objects.all()
+
+        return render(request, 'patients/invoice.html', {'invoices': invoices})
+    except Exception as e:
+        return HttpResponse("Error occurred while fetching invoices: {}".format(e))
+
+
+def update_invoice_status(request, invoice_id, status):
+    try:
+        invoice = Invoice.objects.get(id=invoice_id)
+        if status == 'paid':
+            invoice.paid = True
+            invoice.pending = False
+        elif status == 'pending':
+            invoice.paid = False
+            invoice.pending = True
+        invoice.save()
+        return HttpResponse(f"Invoice {invoice_id} status updated to {status}.")
+    except Invoice.DoesNotExist:
+        return HttpResponse("Invoice does not exist.")

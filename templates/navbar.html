@@ -92,8 +92,10 @@
                         {% if user.is_authenticated %}
                             {% if user.healthcareprofessional.role == 'doctor' %}
                                 <li><a href="{% url 'doctor_dashboard' %}"><i class="fas fa-th text-xl"></i> Doctor Dashboard</a></li>
+                                <li><a href="{% url 'view_schedules' %}"><i class="fas fa-calendar-alt"></i> My Schedule</a></li>
                             {% elif user.healthcareprofessional.role == 'nurse' %}
                                 <li><a href="{% url 'nurse_dashboard' %}"><i class="fas fa-th text-xl"></i> Nurse Dashboard</a></li>
+                                <li><a href="{% url 'view_schedules' %}"><i class="fas fa-calendar-alt"></i> My Schedule</a></li>
                             {% else %}
                                 <li><a href="{% url 'patient_dashboard' %}"><i class="fas fa-th text-xl"></i> Patient Dashboard</a></li>
                             {% endif %}
@@ -107,7 +109,6 @@
                     <a href="{% url 'list_doctors' %}"><i class="fas fa-user-md mr-1 text-xl"></i> Doctors</a>
                     <ul>
                         <li><a href="{% url 'list_doctors' %}"><i class="fas fa-user text-xl"></i> All Doctors</a></li>
-                        <li><a href="{% url 'view_schedules' %}"><i class="fas fa-calendar-alt"></i> My Schedule</a></li>
                         {% if user.healthcareprofessional.user == 'admin' %}
                             <li><a href="{% url 'add_doctor' %}"><i class="fas fa-plus text-xl"></i> Add Doctor</a></li>
                         {% endif %}
@@ -118,8 +119,8 @@
                     <a href="#"><i class="fas fa-user-nurse mr-1 text-xl"></i> Nurses</a>
                     <ul>
                         <li><a href="{%url 'list_nurses' %}"><i class="fas fa-user text-xl"></i> All Nurses</a></li>
-                        {% if user.healthcareprofessional == 'doctor' %}
-                            <li><a href="{% url 'add_nurse' %}"><i class="fas fa-plus text-xl"></i> Add Nurse</a></li>
+                        {% if user.healthcareprofessional.role == 'doctor' %}
+                        <li><a href="{% url 'add_nurse' %}"><i class="fas fa-plus text-xl"></i> Add Nurse</a></li>
                         {% endif %}
                     </ul>
                 </li>
@@ -128,6 +129,7 @@
                     <ul>
                         <li><a href="{% url 'list_patients' %}"><i class="fas fa-users text-xl"></i> All Patients</a></li>
                         <li><a href="{% url 'add_patient' %}"><i class="fas fa-user-plus text-xl"></i> Add Patient</a></li>
+                        <li><a href="{% url 'view_invoices' %}"><i class="fas fa-file-alt text-xl"></i> Invoices</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

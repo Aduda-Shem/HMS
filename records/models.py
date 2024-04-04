@@ -2,6 +2,7 @@ from django.db import models
 from patients.models import Patient
 from doctors.models import HealthcareProfessional
 from django.utils.translation import gettext_lazy as _
+import uuid
 
 class FileNumber(models.Model):
     patient = models.OneToOneField(
@@ -37,6 +38,7 @@ class MedicalRecord(models.Model):
     total_charges = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     allergies = models.CharField(max_length=20, blank=True, null=True)
     medications = models.TextField(blank=True)
+    billed = models.BooleanField(blank=True, null=True)
 
     def __str__(self):
         return f"Medical Record for Patient {self.file_number.patient.first_name} {self.file_number.patient.last_name}"
@@ -76,41 +78,38 @@ class Medication(models.Model):
 
 class MedicationCharge(models.Model):
     medical_record = models.ForeignKey(
-        MedicalRecord, on_delete=models.CASCADE, related_name='medication_charges_records')
+        'MedicalRecord', on_delete=models.CASCADE, related_name='medication_charges_records')
     medication = models.ForeignKey(
-        Medication, on_delete=models.CASCADE, related_name='medication_charges')
+        'Medication', on_delete=models.CASCADE, related_name='medication_charges')
     quantity = models.PositiveIntegerField()
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    billed = models.BooleanField(null=True, blank=True)
+    invoice = models.ForeignKey('Invoice', on_delete=models.SET_NULL, related_name='medication_charges', null=True, blank=True)
 
     def __str__(self):
         return f"Medication Charge: {self.medication.name}"
 
 class TreatmentCharge(models.Model):
     medical_record = models.ForeignKey(
-        MedicalRecord, on_delete=models.CASCADE, related_name='treatment_charges_records')
+        'MedicalRecord', on_delete=models.CASCADE, related_name='treatment_charges_records')
     description = models.CharField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    billed = models.BooleanField(null=True, blank=True)
+    invoice = models.ForeignKey('Invoice', on_delete=models.SET_NULL, related_name='treatment_charges', null=True, blank=True)
 
     def __str__(self):
         return f"Treatment Charge: {self.description}"
 
 
-class Invoice(models.Model):
-    reference = models.CharField(max_length=50)
-    appointment_fee = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Appointment Fee'))
-    admission_fee = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Admission Fee'))
-    other_fees = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Other Fees'))
-    pending = models.BooleanField(default=False)
 
-    def total_amount(self):
-        """
-        Calculate the total amount by summing up all fees.
-        """
-        return self.appointment_fee + self.admission_fee + self.other_fees
+class Invoice(models.Model):
+    reference_number = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    appointment_fee = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Appointment Fee'), default=0)
+    admission_fee = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Admission Fee'), default=0)
+    other_fees = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Other Fees'), default=0)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Total Amount'), default=0)
+    paid = models.BooleanField(default=False) 
+    pending = models.BooleanField(default=True) 
 
     def __str__(self):
-        return f"Invoice - ID: {self.id}, Total Amount: {self.total_amount()}"
-
-    class Meta:
-        verbose_name = _('Invoice')
-        verbose_name_plural = _('Invoices')
+        return f"Invoice - ID: {self.id}, Reference Number: {self.reference_number}"

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!-- START: Main Content-->
+<main>
+    <div class="container-fluid site-width">
+        <!-- START: Breadcrumbs-->
+        <div class="row ">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Invoices</h4></div>
+                    <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
+                        <li class="breadcrumb-item">HMS</li>
+                        <li class="breadcrumb-item">Invoice</li>
+                        <li class="breadcrumb-item active"><a href="#">Hospital Invoices</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- END: Breadcrumbs-->
+
+        <!-- START: Card Data-->
+        <div class="row row-eq-height">
+            <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
+                <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
+                <div class="card border h-100 invoice-menu-section">
+                    <ul class="nav flex-column invoice-menu">
+                        <li class="nav-item">
+                            <a class="nav-link {% if not status %}active{% endif %}" href="{% url 'view_invoices' %}">
+                                <i class="fas fa-list-alt"></i> All
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if status == 'paid' %}active{% endif %}" href="{% url 'view_invoices' 'paid' %}">
+                                <i class="fas fa-money-check-alt"></i> Paid
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if status == 'pending' %}active{% endif %}" href="{% url 'view_invoices' 'pending' %}">
+                                <i class="far fa-money-bill-alt"></i> Pending
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-10 mt-3 pl-lg-0">
+                <div class="card border h-100 invoice-list-section">
+                    <div class="card-header border-bottom p-1 d-flex">
+                        <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
+                        <input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="invoices list">
+                            {% for invoice in invoices %}
+                            <div class="invoice">
+                                <div class="invoice-content">
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Invoice Number: </p>
+                                        <p class="invoice-no">{{ invoice.reference_number }}</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Total Amount: </p>
+                                        <p class="total-amount">{{ invoice.total_amount }}</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Status: </p>
+                                        <p class="invoice-status">{% if invoice.paid %} Paid {% elif invoice.pending %} Pending {% endif %}</p>
+                                    </div>
+                                    <div class="line-h-1 h5">
+                                        {% if not invoice.paid %}
+                                        <button class="btn btn-success btn-sm mr-2 mark-as-paid" data-invoice-id="{{ invoice.id }}" onclick="updateStatus('{{ invoice.id }}', 'paid')">Mark as Paid</button>
+                                        {% endif %}
+                                        {% if not invoice.pending %}
+                                        <button class="btn btn-warning btn-sm mr-2 mark-as-pending" data-invoice-id="{{ invoice.id }}" onclick="updateStatus('{{ invoice.id }}', 'pending')">Mark as Pending</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Card DATA-->
+    </div>
+</main>
+<!-- END: Main Content-->
+
+<!-- END: Content-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function updateStatus(invoiceId, status) {
+        var url = "{% url 'update_invoice_status' invoice_id=0 status='status' %}"
+            .replace('0', invoiceId)
+            .replace('status', status);
+        $.ajax({
+            url: url,
+            success: function (data) {
+                // Refresh the page or update the invoice status dynamically
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+</script>
+
+
+
+{% endblock %}

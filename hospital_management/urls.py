@@ -18,7 +18,7 @@ from django.urls import path, include
 from patients.views import add_appointment, add_schedule, change_appointment_status, delete_schedule, edit_schedule, view_appointment, add_patient, view_patients, view_schedule
 
 from doctors import views
-from records.views import add_diagnosis, add_medical_record, delete_diagnosis, delete_medical_record, edit_diagnosis, edit_medical_record, records, view_all_files, view_diagnosis, view_file, view_patient_file, view_record
+from records.views import add_diagnosis, add_medical_record, create_invoice_from_charges, delete_diagnosis, delete_medical_record, edit_diagnosis, edit_medical_record, records, update_invoice_status, view_all_files, view_diagnosis, view_file, view_invoices, view_patient_file, view_record
 
 urlpatterns = [
     path('register/', views.register, name='register'),
@@ -73,4 +73,10 @@ urlpatterns = [
     path('schedule/add/', add_schedule, name='add_schedule'),
     path('schedule/<int:schedule_id>/edit/', edit_schedule, name='edit_schedule'),
     path('schedule/<int:schedule_id>/delete/', delete_schedule, name='delete_schedule'),
+
+    path('create_invoice/', create_invoice_from_charges, name='create_invoice'),
+    path('invoices/', view_invoices, name='view_invoices'),
+    path('invoices/<str:status>/', view_invoices, name='view_invoices'),
+    path('update_invoice_status/<int:invoice_id>/<str:status>/', update_invoice_status, name='update_invoice_status'),
+
 ]

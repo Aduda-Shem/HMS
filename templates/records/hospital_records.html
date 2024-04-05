@@ -67,9 +67,14 @@
                             <td>{{ record.heart_rate }}</td>
                             <td>{{ record.temperature }}</td>
                             <td>
-                                <a href="{% url 'view_record' record.id %}" class="btn btn-primary btn-sm">View</a> 
-                                <a href="{% url 'create_invoice' %}" class="btn btn-success btn-sm">Bill</a> 
+                                <a href="{% url 'view_record' record.id %}" class="btn btn-primary btn-sm">View</a>
+                                {% if not record.billed %}
+                                    <a href="{% url 'create_invoice' %}" class="btn btn-success btn-sm">Bill</a>
+                                {% else %}
+                                    Billed
+                                {% endif %}
                             </td>
+                            
                         </tr>
                         {% endfor %}
                     </tbody>

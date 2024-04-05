@@ -40,7 +40,9 @@
                                         <th>Weight</th>
                                         <th>Height</th>
                                         <th>Date</th>
+                                        {% if user.healthcareprofessional %}
                                         <th>Actions</th>
+                                        {% endif %}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,7 +57,9 @@
                                         <td>{{ medical_record.height }}</td>
                                         <td>{{ medical_record.date_created }}</td>
                                         <td>
+                                            {% if user.healthcareprofessional %}
                                             <a href="{% url 'edit_medical_record' medical_record.id %}" class="btn btn-sm btn-info">Edit</a>
+                                            {% endif %}
                                             <!-- <a href="{% url 'delete_medical_record' medical_record.id %}" class="btn btn-sm btn-danger">Delete</a> -->
                                         </td>
                                     </tr>

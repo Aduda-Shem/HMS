@@ -71,7 +71,7 @@
                                         <button class="btn btn-success btn-sm mr-2 mark-as-paid" data-invoice-id="{{ invoice.id }}" onclick="updateStatus('{{ invoice.id }}', 'paid')">Mark as Paid</button>
                                         {% endif %}
                                         {% if not invoice.pending %}
-                                        <button class="btn btn-warning btn-sm mr-2 mark-as-pending" data-invoice-id="{{ invoice.id }}" onclick="updateStatus('{{ invoice.id }}', 'pending')">Mark as Pending</button>
+                                        Paid
                                         {% endif %}
                                     </div>
                                 </div>
@@ -91,9 +91,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function updateStatus(invoiceId, status) {
-        var url = "{% url 'update_invoice_status' invoice_id=0 status='status' %}"
-            .replace('0', invoiceId)
-            .replace('status', status);
+        var url = "update_invoice_paid/" + invoiceId + "/" + status + "/";
         $.ajax({
             url: url,
             success: function (data) {
@@ -106,6 +104,7 @@
         });
     }
 </script>
+
 
 
 

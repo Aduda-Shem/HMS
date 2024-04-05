@@ -119,17 +119,22 @@ def nurse_dashboard(request):
     }
 
     return render(request, 'nurse/nurse_dashboard.html', context)
+
 @login_required
 def patient_dashboard(request):
     user = request.user
-    print("uuser: ", user)
-    patient = Patient.objects.get(user=user)
-    file_number = patient.file_number
+    patient = get_object_or_404(Patient, user=user)
     
     latest_appointment = Appointment.objects.filter(patient=patient).order_by('-appointment_date').first()
     
+    # Retrieve the patient's file number
+    file_number = get_object_or_404(FileNumber, patient=patient)
+    
+    # Filter medical records by patient's file number
     medical_records = MedicalRecord.objects.filter(file_number=file_number)
-    diagnoses = Diagnosis.objects.filter(file_number=file_number)
+    
+    # Filter diagnoses based on medical records associated with the patient's file number
+    diagnoses = Diagnosis.objects.filter(medical_records__file_number=file_number)
 
     context = {
         'patient': patient,
@@ -139,9 +144,6 @@ def patient_dashboard(request):
     }
 
     return render(request, 'patients/patient_dashboard.html', context)
-
-
-
 def create_user_with_id_password(license_number):
     password = f'user{license_number}'
     user = User.objects.create_user(username=f'user{license_number}', password=password)

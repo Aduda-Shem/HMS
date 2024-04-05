@@ -38,7 +38,7 @@ class MedicalRecord(models.Model):
     total_charges = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     allergies = models.CharField(max_length=20, blank=True, null=True)
     medications = models.TextField(blank=True)
-    billed = models.BooleanField(blank=True, null=True)
+    billed = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Medical Record for Patient {self.file_number.patient.first_name} {self.file_number.patient.last_name}"

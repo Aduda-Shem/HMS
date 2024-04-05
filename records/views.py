@@ -170,7 +170,7 @@ def create_invoice_from_charges(request):
             # Mark all treatment charges as billed and associate them with the invoice
             treatment_charges.update(billed=True, invoice=invoice)
 
-        return HttpResponse("Invoice created successfully")
+        return redirect('view_invoices')
     except Exception as e:
         return HttpResponse("Error occurred while creating invoice: {}".format(e))
 

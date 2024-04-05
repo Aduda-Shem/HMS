@@ -77,6 +77,6 @@ urlpatterns = [
     path('create_invoice/', create_invoice_from_charges, name='create_invoice'),
     path('invoices/', view_invoices, name='view_invoices'),
     path('invoices/<str:status>/', view_invoices, name='view_invoices'),
-    path('update_invoice_status/<int:invoice_id>/<str:status>/', update_invoice_status, name='update_invoice_status'),
+    path('invoices/update_invoice_paid/<int:invoice_id>/<str:status>/', update_invoice_status, name='update_invoice_status'),
 
 ]

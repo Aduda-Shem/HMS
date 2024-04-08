@@ -53,7 +53,7 @@ class AppointmentForm(forms.ModelForm):
         super(AppointmentForm, self).__init__(*args, **kwargs)
         
         self.fields['patient'].queryset = Patient.objects.all()
-        self.fields['doctor'].queryset = HealthcareProfessional.objects.all()
+        self.fields['doctor'].queryset = HealthcareProfessional.objects.filter(role='doctor') 
 
     patient = forms.ModelChoiceField(
         queryset=None,  

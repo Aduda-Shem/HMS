@@ -6,8 +6,6 @@ A Hospital Management System built using Django and SQLite. This project helps m
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 - Patient registration and management
